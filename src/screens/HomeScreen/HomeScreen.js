@@ -27,8 +27,6 @@ export default function HomeScreen({ navigation }) {
             var title = doc.data().title;
             var description = doc.data().description;
             newConcepts.push({title: title, description: description});
-
-        console.log(doc.data());
         });
         setData(newConcepts);
     }

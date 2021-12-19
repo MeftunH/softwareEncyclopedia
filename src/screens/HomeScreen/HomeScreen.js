@@ -92,7 +92,7 @@
 // }
 import { StyleSheet, Text, FlatList, View, SafeAreaView } from 'react-native';
 import AppBar from './appbar';
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
 
     var dataList = [
         { value: 'Algoritma yazılımın temelini oluşturur. Bir probleme yaklaşımınız, çözüme gidişiniz, kullandığınız yöntemler tasarladığınız algoritmaya göre yapılmaktadır. Algoritmayı hayatımızda farkında olmadan sürekli kullanmaktayız. Yaptığımız her hareket, her eylem aslında kendi içerisinde kendi algoritmasını barındırmaktadır. Demlediğimiz çayın, yaptığımız pilavın, hava karardığında odamızda yaktığımız ışığın… Her durumun aslında kendine has algoritması ve koşulları vardır. Tasarladığımız algoritmaları daha anlaşılır bir şekilde göstermek için akış diyagramları kullanırız', key: 'Algoritma', },

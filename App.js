@@ -5,6 +5,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { LoginScreen, HomeScreen, RegistrationScreen } from './src/screens'
 import { decode, encode } from 'base-64'
 import { firebase } from './src/firebase/config'
+import { StyleSheet, Button, View, SafeAreaView, Text, Alert } from 'react-native';
+
 if (!global.btoa) { global.btoa = encode }
 if (!global.atob) { global.atob = decode }
 
@@ -25,7 +27,16 @@ export default function App() {
         ) : (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Home" component={HomeScreen}  
+            options={{
+          headerRight: () => (
+            <Button
+              onPress={() => alert('This is a button!')}
+              title="Info"
+              color="#000000"
+            />
+          ),
+        }}/>
             <Stack.Screen name="Registration" component={RegistrationScreen} />
           </>
         )}

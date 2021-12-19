@@ -3,7 +3,9 @@ import AppBar from './appbar';
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from '../../firebase/config'
+import LinearGradient from 'react-native-linear-gradient';
 export default function HomeScreen({ navigation }) {
+
 
     const [data, setData] = useState([]);
     const [title, seTitle] = useState('');
@@ -41,7 +43,7 @@ export default function HomeScreen({ navigation }) {
                 data={data}
                 style={styles.container}
                 renderItem={({ item }) =>
-                    <View style={[styles.container, { flexDirection: 'column' },]}>
+                    <View style={[styles.card, { flexDirection: 'column' },]}>
                         <Text style={styles.textTitle}>{item.title}</Text>
                         <Text style={styles.textContent}>{item.description}</Text>
                     </View>}
@@ -51,13 +53,30 @@ export default function HomeScreen({ navigation }) {
     );
 }
 const styles = StyleSheet.create({
+    card: {
+        paddingTop: 10,
+        margin: 10,
+        borderRadius: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 5,
+        backgroundColor: '#d7d7d7'
+    },
+
     container: {
         paddingTop: 10,
     },
     textTitle: {
-        padding: 10,
+        paddingBottom: 5,
+        paddingLeft: 10,
+        paddingBottom: 5,
         fontSize: 18,
-        height: 44,
         fontWeight: 'bold'
     },
     textContent: {

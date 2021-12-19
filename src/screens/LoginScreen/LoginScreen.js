@@ -5,32 +5,34 @@ import styles from './styles';
 import { auth } from '../../firebase/config'
 import { signInWithEmailAndPassword } from "firebase/auth";
 
-export default function LoginScreen({navigation}) {
+export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    
+
     const onLoginPress = () => {
         signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            Alert.alert(
-                "Giriş Başarılı",
-                "Giriş basarili sekilde oldu.",
-                [
-                  { text: "OK", onPress: () => console.log("OK Pressed") }
-                ]
-              );
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          Alert.alert(
-            errorCode,
-            errorMessage.replace("Firebase:" , ""),
-            [
-              { text: "OK", onPress: () => console.log("OK Pressed") }
-            ]
-          );
-        });
+            .then((userCredential) => {
+                Alert.alert(
+                    "Giriş Başarılı",
+                    "Giriş basarili sekilde oldu.",
+                    [
+                        { text: "OK", onPress: () => console.log("OK Pressed") }
+
+                    ]
+                    , navigation.navigate('Home')
+                );
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                Alert.alert(
+                    errorCode,
+                    errorMessage.replace("Firebase:", ""),
+                    [
+                        { text: "OK", onPress: () => console.log("OK Pressed") }
+                    ]
+                );
+            });
     }
 
     const onFooterLinkPress = () => {

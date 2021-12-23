@@ -3,10 +3,11 @@ import AppBar from './appbar';
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from '../../firebase/config'
+import { LogBox } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 export default function HomeScreen({ navigation }) {
-
-
+    LogBox.ignoreLogs(['Setting a timer']);
+    LogBox.ignoreLogs(['Setting a timer for a long period of time'])
     const [data, setData] = useState([]);
     const [title, seTitle] = useState('');
     const [description, setDescription] = useState([]);
@@ -22,18 +23,19 @@ export default function HomeScreen({ navigation }) {
         { value: 'Büyük bir projenin içerisinde yer alıyorsanız, başka sistemlerle, servislerle iletişim halinde olma ihtiyacı duymuşsunuzdur. Yada kendiniz bir proje geliştiriyorsanız yapmak istediğiniz modül aslında başka biri tarafından yapılmış ve API olarak kullanıma açılmıştır.', key: 'API (Application Programming Interface)', },
         { value: 'Yazdığımız kodları derleyiciler neye göre derleyeceğini o dile ait framework’e bakarak anlarlar. C# uygulaması geliştiriyorsak bilgisayarımızda .net Framework kurulu olması gerekmektedir. Aynı şekilde bir Java uygulaması geliştiriyorsak bilgisayarımızda JDK olması gerekmektedir. Herhangi bir dilde yazılmış uygulamayı bilgisayarımızda çalıştırabilmek için de o uygulamanın framework’ü bilgisayarımızda kurulu olmalıdır', key: 'Framework', },
     ];
-    const getData = async () => {
-        const querySnapshot = await getDocs(collection(db, "concepts"));
-        const newConcepts = [];
-        querySnapshot.forEach((doc) => {
-            var title = doc.data().title;
-            var description = doc.data().description;
-            newConcepts.push({ title: title, description: description });
-        });
-        setData(newConcepts);
-    }
+   
 
     useEffect(() => {
+        const getData = async () => {
+            const querySnapshot = await getDocs(collection(db, "concepts"));
+            const newConcepts = [];
+            querySnapshot.forEach((doc) => {
+                var title = doc.data().title;
+                var description = doc.data().description;
+                newConcepts.push({ title: title, description: description });
+            });
+            setData(newConcepts);
+        }
         getData();
     });
     return (

@@ -8,6 +8,8 @@ import {Alert} from 'react-native';
 import { auth } from '../src/firebase/config';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications'; 
+import { addDoc, collection, setDoc, doc} from "firebase/firestore";
+import { db } from '../src/firebase/config'
 import {
   StyleSheet,
   TextInput,
@@ -21,7 +23,36 @@ import {
 } from 'react-native';
 
 import Loader from './Components/Loader';
+async function registerForPushNotificationsAsync() {
+  let token;
+  if (Constants.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
 
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  return token;
+}
 const LoginScreen = ({navigation}) => {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
@@ -51,16 +82,22 @@ const LoginScreen = ({navigation}) => {
     formBody = formBody.join('&');
 
     signInWithEmailAndPassword(auth, userEmail, userPassword)
-    .then((userCredential) => {
+    .then(async (userCredential) => {
+      registerForPushNotificationsAsync().then(async token => {
+        await setDoc(doc(db, "userData", userEmail), {
+          expoToken : token,
+        });
         Alert.alert(
-            "Giriş Başarılı",
-            "Giriş basarili sekilde oldu.",
-            [
-                { text: "OK", onPress: () => console.log("OK Pressed") }
+          "Giriş Başarılı",
+          "Giriş basarili sekilde oldu.",
+          [
+              { text: "OK", onPress: () => console.log("OK Pressed") }
 
-            ]
-            , navigation.replace('DrawerNavigationRoutes')
-        );
+          ]
+          , navigation.replace('DrawerNavigationRoutes')
+      )
+    
+      })
     })
     .catch((error) => {
         const errorCode = error.code;

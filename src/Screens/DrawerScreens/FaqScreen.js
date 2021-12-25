@@ -1,88 +1,66 @@
-import React, {useState,useEffect } from "react";
-import { SafeAreaView, StyleSheet, TextInput, Button, View, Text } from "react-native";
-import { collection, addDoc,storage,getDocs } from "firebase/firestore"; 
-import { db, auth } from '../../firebase/config'
-import * as Notifications from 'expo-notifications';
+import React from 'react';
+import { View, Text, Button, StyleSheet, Image, FlatList } from 'react-native';
 
-Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-    }),
-  });
-  
-export default function FAQ() {
-    const [title,setTitle] = useState('');
-    const [description,setDescription] = useState('');
-    const [text, onChangeText] = React.useState("Useless Text");
-    const [number, onChangeNumber] = React.useState(null);
-    const [addedUserEmail, setAddedUserEmail] = useState('');
-    const user = auth.currentUser;
+import Accordion from '@gapur/react-native-accordion'; //https://www.npmjs.com/package/@gapur/react-native-accordion
 
-       const handleSave = async () => {
-           setAddedUserEmail(user.email);
-        const docRef = await addDoc(collection(db, "concepts"), {
-            title: title,
-            description: description,
-            user_email:user.email,
-          });
-         
-         
-        // PUSH NOTIFICATION
-        const querySnapshot = await getDocs(collection(db, "userData"));
-       
-        var expoPushTokens = [];
-        await querySnapshot.forEach(async (doc) => {
-          expoPushTokens.push(doc.data().expoToken);
-        });
-            
-        const message = {
-          to: expoPushTokens,
-          sound: 'default',
-          title: `${title} adinda yeni konseptimiz var.Goz atmak ister misin?`,
-          body: `${addedUserEmail} tarafindan ${title} adli yeni konsept eklendi`,
-          data: { someData: 'goes here' },
-        };
-      
-        await fetch('https://exp.host/--/api/v2/push/send', {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Accept-encoding': 'gzip, deflate',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(message),
-        });
-      }
+
+export default function FaqScreen() {
+    const [list] = React.useState([
+        {
+            id: 1,
+            title: 'Uygulama neden yapıldı?',
+            body: 'Uygulama yazılım dünyasına yeni girmiş kişilerin yüzlerce kavram arasında kaybolmaması adına yapılmıştır.',
+        },
+        {
+            id: 2,
+            title: 'Tüm kavramlar uygulamada bulunuyor mu?',
+            body: 'Hayır, tüm kavramlar uygulamada bulunmuyor fakat kullanıcıların yeni kavramlar ekleyebilmesine imkan tanıyarak dinamik bir uygulama olmayı hedefliyoruz!',
+        },
+        {
+            id: 3,
+            title: 'Yeni girilen kavramlar kontrol ediliyor mu?',
+            body: 'Evet, yeni girilen kavramlar algoritmamız tarafından kontrol ediliyor ardından moderatörlerimiz tarafından manuel olarak kontrol edilmektedir.',
+        },
+        {
+            id: 4,
+            title: 'Uygulama nasıl geliştirildi?',
+            body: 'Uygulama Facebook frameworku olan React Native ile geliştirildi.',
+        },
+        {
+            id: 5,
+            title: 'Uygulama gelişimini sürdürecek mi?',
+            body: 'Evet, uygulamamız yazılım ekibmiz tarafından geliştirilmeye devam edecektir.',
+        },
+        {
+            id: 6,
+            title: 'Uygulama kar amacı güdüyor mu?',
+            body: 'Hayır, uygulamamız hiç bir zaman kar amacı gütmeyecektir.',
+        },
+    ]);
+
+    const renderList = ({ item }) => {
+        return (
+            <View key={item.id}>
+                <Accordion headerTitle={item.title}>
+                    <Text style={styles.textStyle}>{item.body}</Text>
+
+                </Accordion>
+            </View>
+        );
+    };
     return (
-        <SafeAreaView>
-            <TextInput>
-                FaqScreen
-            </TextInput>
-        </SafeAreaView>
+        <FlatList
+            data={list}
+            renderItem={renderList}
+            keyExtractor={(item) => item.id.toString()}
+        />
     );
-};
 
+}
 const styles = StyleSheet.create({
-    buttonStyle: {
-        height: 50,
-
+    textStyle: {
         color: 'black',
-        backgroundColor: 'red',
-        alignItems: 'center',
+        fontWeight: 'bold',
     },
-    buttonTextStyle: {
-        height: 50,
-        color: 'blue',
-        backgroundColor: 'yellow',
-        alignSelf: 'center',
 
-    },
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
-    },
 });

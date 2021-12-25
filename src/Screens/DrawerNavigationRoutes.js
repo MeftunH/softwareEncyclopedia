@@ -1,13 +1,10 @@
-// Example of Splash, Login and Sign Up in React Native
-// https://aboutreact.com/react-native-login-and-signup/
 
-// Import React
 import React from 'react';
 
 // Import Navigators from React Navigation
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-
+import { Ionicons } from '@expo/vector-icons';
 // Import Screens
 import HomeScreen from './DrawerScreens/HomeScreen';
 import SettingsScreen from './DrawerScreens/SettingsScreen';
@@ -15,18 +12,139 @@ import AddConceptScreen from './DrawerScreens/AddConceptScreen';
 import CustomSidebarMenu from './Components/CustomSidebarMenu';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
 import FaqScreen from './DrawerScreens/FaqScreen';
-
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import BottomTabNavigator from "./TabNavigation/TabNavigator";
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator();
 
+const BottomTabStack = () => {
+  return (
+    <Tab.Navigator screenOptions={{headerShown:false}}
+      initialRouteName="HomeScreen"
+      tabBarOptions={{
+        activeTintColor: 'tomato',
+        inactiveTintColor: 'gray',
+        style: {
+          backgroundColor: '#e0e0e0',
+        },
+        labelStyle: {
+          textAlign: 'center',
+          fontSize: 16,
+        },
+      }}>
+      <Tab.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ color, size }) =>  <Ionicons name="home-outline" size={32} color="black" />
+        }}
+      />
+       <Tab.Screen
+        name="FAQ"
+        component={FaqScreen}
+        options={{
+          tabBarIcon: ({ color, size }) =>  <Ionicons name="help-outline" size={32} color="black" />
+        }}
+      />
+       <Tab.Screen
+        name="Add Concept"
+        component={AddConceptScreen}
+        options={{
+          tabBarIcon: ({ color, size }) =>  <Ionicons name="add-circle-outline" size={32} color="green" />
+
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+const FaqBottomTabStack = () => {
+  return (
+    <Tab.Navigator screenOptions={{headerShown:false}}
+      initialRouteName="FAQ"
+      tabBarOptions={{
+        activeTintColor: 'tomato',
+        inactiveTintColor: 'gray',
+        style: {
+          backgroundColor: '#e0e0e0',
+        },
+        labelStyle: {
+          textAlign: 'center',
+          fontSize: 16,
+        },
+      }}>
+      <Tab.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ color, size }) =>  <Ionicons name="home-outline" size={32} color="black" />
+        }}
+      />
+       <Tab.Screen
+        name="FAQ"
+        component={FaqScreen}
+        options={{
+          tabBarIcon: ({ color, size }) =>  <Ionicons name="help-outline" size={32} color="black" />
+        }}
+      />
+       <Tab.Screen
+        name="Add Concept"
+        component={AddConceptScreen}
+        options={{
+          tabBarIcon: ({ color, size }) =>  <Ionicons name="add-circle-outline" size={32} color="green" />
+
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+const AddConceptBottomTabStack = () => {
+  return (
+    <Tab.Navigator screenOptions={{headerShown:false}}
+      initialRouteName="Add Concept"
+      tabBarOptions={{
+        activeTintColor: 'tomato',
+        inactiveTintColor: 'gray',
+        style: {
+          backgroundColor: '#e0e0e0',
+        },
+        labelStyle: {
+          textAlign: 'center',
+          fontSize: 16,
+        },
+      }}>
+      <Tab.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ color, size }) =>  <Ionicons name="home-outline" size={32} color="black" />
+        }}
+      />
+       <Tab.Screen
+        name="FAQ"
+        component={FaqScreen}
+        options={{
+          tabBarIcon: ({ color, size }) =>  <Ionicons name="help-outline" size={32} color="black" />
+        }}
+      />
+       <Tab.Screen
+        name="Add Concept"
+        component={AddConceptScreen}
+        options={{
+          tabBarIcon: ({ color, size }) =>  <Ionicons name="add-circle-outline" size={32} color="green" />
+
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 const homeScreenStack = ({navigation}) => {
   return (
     <Stack.Navigator initialRouteName="HomeScreen">
       <Stack.Screen
         name="HomeScreen"
-        component={HomeScreen}
+        component={BottomTabStack}
         options={{
-          title: 'Home', //Set Header Title
           headerLeft: () => (
             <NavigationDrawerHeader navigationProps={navigation} />
           ),
@@ -61,7 +179,7 @@ const faqScreenStack = ({navigation}) => {
       }}>
       <Stack.Screen
         name="FaqScreen"
-        component={FaqScreen}
+        component={FaqBottomTabStack}
         options={{
           title: 'FAQ', //Set Header Title
         }}
@@ -87,7 +205,7 @@ const addConceptStack = ({navigation}) => {
         }}>
         <Stack.Screen
           name="AddConceptScreen"
-          component={AddConceptScreen}
+          component={AddConceptBottomTabStack}
           options={{
             title: 'Add Concept', //Set Header Title
           }}
@@ -99,11 +217,14 @@ const DrawerNavigatorRoutes = (props) => {
   return (
     <Drawer.Navigator
       drawerContentOptions={{
-        activeTintColor: '#red',
-        color: '#red',
-        itemStyle: {marginVertical: 5, color: 'white'},
+        activeTintColor: 'tomato',
+        inactiveTintColor: 'gray',
+        style: {
+          backgroundColor: '#e0e0e0',
+        },
         labelStyle: {
-          color: '#d8d8d8',
+          textAlign: 'center',
+          fontSize: 16,
         },
       }}
       screenOptions={{headerShown: false}}
@@ -114,15 +235,16 @@ const DrawerNavigatorRoutes = (props) => {
         component={homeScreenStack}
       />
       <Drawer.Screen
-        name="addConceptStack"
-        options={{drawerLabel: 'Add Concept Screen'}}
-        component={addConceptStack}
-      />
-       <Drawer.Screen
         name="faqScreenStack"
         options={{drawerLabel: 'FAQ'}}
         component={faqScreenStack}
       />
+      <Drawer.Screen
+        name="addConceptStack"
+        options={{drawerLabel: 'Add Concept Screen'}}
+        component={addConceptStack}
+      />
+    
     </Drawer.Navigator>
   );
 };

@@ -34,9 +34,9 @@ export default function AddConcept() {
        
         var expoPushTokens = [];
         await querySnapshot.forEach(async (doc) => {
-          expoPushTokens.push(doc.data().expoToken);
+        expoPushTokens.push(doc.data().expoToken);
         });
-            
+        console.log(expoPushTokens)
         const message = {
           to: expoPushTokens,
           sound: 'default',

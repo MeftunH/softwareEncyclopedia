@@ -1,24 +1,23 @@
-import { StyleSheet, Text, FlatList, View, SafeAreaView } from 'react-native';
-import AppBar from './appbar';
-import React, { useLayoutEffect, useState, useEffect } from "react";
+import { StyleSheet, Text, FlatList, View, Image } from 'react-native';
+import React, { useState, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from '../../firebase/config'
-import LinearGradient from 'react-native-linear-gradient';
-export default function HomeScreen({ navigation }) {
-
+import { auth, db } from '../../firebase/config'
+export default function MyConcepts({ navigation }) {
+    const user = auth.currentUser;
     const [data, setData] = useState([]);
     const [title, seTitle] = useState('');
     const [description, setDescription] = useState([]);
-
-
     const getData = async () => {
         console.log('get data');
         const querySnapshot = await getDocs(collection(db, "concepts"));
         const newConcepts = [];
         querySnapshot.forEach((doc) => {
-            var title = doc.data().title;
-            var description = doc.data().description;
-            newConcepts.push({ title: title, description: description });
+            if (doc.data().user_email != user.email) {
+                var title = doc.data().title;
+                var description = doc.data().description;
+                newConcepts.push({ title: title, description: description });
+            }
+
         });
         setData(newConcepts);
     }
@@ -29,20 +28,29 @@ export default function HomeScreen({ navigation }) {
     }, []);
     return (
         <View>
+            <Text style={styles.titleStyle}> My Concepts</Text>
             <FlatList
                 data={data}
                 style={styles.container}
                 renderItem={({ item }) =>
                     <View style={[styles.card, { flexDirection: 'column' },]}>
-                        <Text style={styles.textTitle}>{item.title}</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={styles.textTitle}>{item.title}</Text>
+                            <Image source={require('assets/editIcon.png')}></Image>
+                        </View>
                         <Text style={styles.textContent}>{item.description}</Text>
                     </View>}
             />
-
         </View>
-    );
+    )
 }
 const styles = StyleSheet.create({
+    titleStyle: {
+        fontWeight: 'bold',
+        fontSize: 25,
+        alignSelf: 'center',
+        paddingTop: 20,
+    },
     card: {
         paddingTop: 10,
         margin: 10,

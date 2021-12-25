@@ -1,32 +1,22 @@
 import { StyleSheet, Text, FlatList, View, SafeAreaView } from 'react-native';
 import AppBar from './appbar';
 import React, { useLayoutEffect, useState, useEffect } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { onSnapshot,collection, getDocs } from "firebase/firestore";
 import { db } from '../../firebase/config'
 import LinearGradient from 'react-native-linear-gradient';
 export default function HomeScreen({ navigation }) {
 
     const [data, setData] = useState([]);
-    const [title, seTitle] = useState('');
-    const [description, setDescription] = useState([]);
 
+    useEffect(
+        () =>
+          onSnapshot(collection(db, "concepts"), (snapshot) =>
+          setData(snapshot.docs.map((doc) => ({ ...doc.data(), title: doc.data().title,description: doc.data().description })))
+          ),
+       []
+      );
 
-    const getData = async () => {
-        console.log('get data');
-        const querySnapshot = await getDocs(collection(db, "concepts"));
-        const newConcepts = [];
-        querySnapshot.forEach((doc) => {
-            var title = doc.data().title;
-            var description = doc.data().description;
-            newConcepts.push({ title: title, description: description });
-        });
-        setData(newConcepts);
-    }
-
-    useEffect(() => {
-        getData();
-        console.log('get data2');
-    }, []);
+    
     return (
         <View>
             <FlatList

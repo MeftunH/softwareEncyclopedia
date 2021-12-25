@@ -28,7 +28,7 @@ export default function MyConcepts({ navigation }) {
     }, []);
     return (
         <View>
-            <Text style={styles.titleStyle}> My Concepts</Text>
+           <Text style={styles.titleStyle}> My Concepts</Text>
             <FlatList
                 data={data}
                 style={styles.container}
@@ -36,7 +36,7 @@ export default function MyConcepts({ navigation }) {
                     <View style={[styles.card, { flexDirection: 'column' },]}>
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={styles.textTitle}>{item.title}</Text>
-                            <Image source={require('assets/editIcon.png')}></Image>
+                            <Image source={require('../../../assets/editIcon.png')}></Image>
                         </View>
                         <Text style={styles.textContent}>{item.description}</Text>
                     </View>}

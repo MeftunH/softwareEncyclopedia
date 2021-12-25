@@ -14,11 +14,12 @@ import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
 import FaqScreen from './DrawerScreens/FaqScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import BottomTabNavigator from "./TabNavigation/TabNavigator";
-import MyConcepts from './DrawerScreens/myConsepts';
+import MyConceptScreen from './DrawerScreens/MyConceptsScreen';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
+//tabs
 const BottomTabStack = () => {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}
@@ -50,7 +51,7 @@ const BottomTabStack = () => {
       />
       <Tab.Screen
         name="Add Concept"
-        component={MyConcepts}
+        component={AddConceptScreen}
         options={{
           tabBarIcon: ({ color, size }) => <Ionicons name="add-circle-outline" size={32} color="green" />
 
@@ -139,6 +140,7 @@ const AddConceptBottomTabStack = () => {
     </Tab.Navigator>
   );
 };
+//stacks
 const homeScreenStack = ({ navigation }) => {
   return (
     <Stack.Navigator initialRouteName="HomeScreen">
@@ -214,6 +216,34 @@ const addConceptStack = ({ navigation }) => {
     </Stack.Navigator>
   );
 };
+const myConceptsStack = ({ navigation }) => {
+  return (
+    <Stack.Navigator
+      initialRouteName="MyConcepts"
+      screenOptions={{
+        headerLeft: () => (
+          <NavigationDrawerHeader navigationProps={navigation} />
+        ),
+        headerStyle: {
+          backgroundColor: '#307ecc', //Set Header color
+        },
+        headerTintColor: '#fff', //Set Header text color
+        headerTitleStyle: {
+          fontWeight: 'bold', //Set Header text style
+        },
+      }}>
+      <Stack.Screen
+        name="MyConceptsScreen"
+        component={MyConceptScreen}
+        options={{
+          title: 'My Concepts', //Set Header Title
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+//main nav
 const DrawerNavigatorRoutes = (props) => {
   return (
     <Drawer.Navigator
@@ -244,6 +274,11 @@ const DrawerNavigatorRoutes = (props) => {
         name="addConceptStack"
         options={{ drawerLabel: 'Add Concept Screen' }}
         component={addConceptStack}
+      />
+       <Drawer.Screen
+        name="myConceptsStack"
+        options={{ drawerLabel: 'My Concepts' }}
+        component={myConceptsStack}
       />
 
     </Drawer.Navigator>

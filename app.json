@@ -1,5 +1,12 @@
 {
   "expo": {
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "userInterfaceStyle": "light"
+    },
+    "android": {
+      "userInterfaceStyle": "dark"
+    },
     "name": "softwareEncyclopedia",
     "slug": "softwareEncyclopedia",
     "version": "1.0.0",

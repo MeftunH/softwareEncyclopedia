@@ -1,6 +1,14 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, TextInput, Button, View, Text } from "react-native";
 
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+    }),
+  });
+  
 const AddConcept = () => {
     const [text, onChangeText] = React.useState("Useless Text");
     const [number, onChangeNumber] = React.useState(null);

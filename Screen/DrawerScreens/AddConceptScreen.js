@@ -2,35 +2,46 @@ import React, {useState,useEffect } from "react";
 import { SafeAreaView, StyleSheet, TextInput, Button, View, Text } from "react-native";
 import { collection, addDoc,storage,getDocs } from "firebase/firestore"; 
 import { db, auth } from '../../src/firebase/config'
+import * as Notifications from 'expo-notifications';
 
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
+  });
+  
 export default function AddConcept() {
     const [title,setTitle] = useState('');
     const [description,setDescription] = useState('');
     const [text, onChangeText] = React.useState("Useless Text");
     const [number, onChangeNumber] = React.useState(null);
+    const [addedUserEmail, setAddedUserEmail] = useState('');
     const user = auth.currentUser;
+
        const handleSave = async () => {
-        await addDoc(collection(db, "concepts"), {
+           setAddedUserEmail(user.email);
+        const docRef = await addDoc(collection(db, "concepts"), {
             title: title,
             description: description,
             user_email:user.email,
           });
-    
+         
+         
         // PUSH NOTIFICATION
         const querySnapshot = await getDocs(collection(db, "userData"));
-    
+       
         var expoPushTokens = [];
         await querySnapshot.forEach(async (doc) => {
           expoPushTokens.push(doc.data().expoToken);
         });
-    
-        console.log(expoPushTokens)
-        
+            
         const message = {
           to: expoPushTokens,
           sound: 'default',
-          title: 'Yeni Yemek Tarifi Eklendi',
-          body: 'Yeni yemek tarifini görmek için hemen giriş yap :)',
+          title: `${title} adinda yeni konseptimiz var.Goz atmak ister misin?`,
+          body: `${addedUserEmail} tarafindan ${title} adli yeni konsept eklendi`,
           data: { someData: 'goes here' },
         };
       
@@ -59,7 +70,7 @@ export default function AddConcept() {
                 value={description} onChangeText={description=>setDescription(description)}
             />
             <Button title="Save" onPress={handleSave}></Button>
-
+            
         </SafeAreaView>
     );
 };

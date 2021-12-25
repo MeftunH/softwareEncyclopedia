@@ -1,22 +1,21 @@
 import { StyleSheet, Text, FlatList, View, SafeAreaView } from 'react-native';
 import AppBar from './appbar';
 import React, { useLayoutEffect, useState, useEffect } from "react";
-import { onSnapshot,collection, getDocs } from "firebase/firestore";
+import { onSnapshot, collection, getDocs } from "firebase/firestore";
 import { db } from '../../firebase/config'
-import LinearGradient from 'react-native-linear-gradient';
 export default function HomeScreen({ navigation }) {
 
     const [data, setData] = useState([]);
 
     useEffect(
         () =>
-          onSnapshot(collection(db, "concepts"), (snapshot) =>
-          setData(snapshot.docs.map((doc) => ({ ...doc.data(), title: doc.data().title,description: doc.data().description })))
-          ),
-       []
-      );
+            onSnapshot(collection(db, "concepts"), (snapshot) =>
+                setData(snapshot.docs.map((doc) => ({ ...doc.data(), title: doc.data().title, description: doc.data().description })))
+            ),
+        []
+    );
 
-    
+
     return (
         <View>
             <FlatList

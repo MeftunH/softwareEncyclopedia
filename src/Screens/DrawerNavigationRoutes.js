@@ -15,6 +15,7 @@ import FaqScreen from './DrawerScreens/FaqScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import BottomTabNavigator from "./TabNavigation/TabNavigator";
 import MyConceptScreen from './DrawerScreens/MyConceptsScreen';
+import AbaoutUs from './DrawerScreens/AbaoutUs';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
@@ -100,6 +101,7 @@ const FaqBottomTabStack = () => {
     </Tab.Navigator>
   );
 };
+
 const AddConceptBottomTabStack = () => {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}
@@ -242,6 +244,32 @@ const myConceptsStack = ({ navigation }) => {
     </Stack.Navigator>
   );
 };
+const AbaoutUsStack = ({ navigation }) => {
+  return (
+    <Stack.Navigator
+      initialRouteName="AbaoutUs"
+      screenOptions={{
+        headerLeft: () => (
+          <NavigationDrawerHeader navigationProps={navigation} />
+        ),
+        headerStyle: {
+          backgroundColor: '#307ecc', //Set Header color
+        },
+        headerTintColor: '#fff', //Set Header text color
+        headerTitleStyle: {
+          fontWeight: 'bold', //Set Header text style
+        },
+      }}>
+      <Stack.Screen
+        name="AbaoutUsScreen"
+        component={AbaoutUs}
+        options={{
+          title: 'Abaout Us', //Set Header Title
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
 
 //main nav
 const DrawerNavigatorRoutes = (props) => {
@@ -275,10 +303,15 @@ const DrawerNavigatorRoutes = (props) => {
         options={{ drawerLabel: 'Add Concept Screen' }}
         component={addConceptStack}
       />
-       <Drawer.Screen
+      <Drawer.Screen
         name="myConceptsStack"
         options={{ drawerLabel: 'My Concepts' }}
         component={myConceptsStack}
+      />
+      <Drawer.Screen
+        name="AbaoutUsStack"
+        options={{ drawerLabel: 'Abaout Us' }}
+        component={AbaoutUs}
       />
 
     </Drawer.Navigator>

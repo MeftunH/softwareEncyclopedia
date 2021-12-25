@@ -5,11 +5,11 @@
 import React, {useState, createRef} from 'react';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import {Alert} from 'react-native';
-import { auth } from '../src/firebase/config';
+import { auth } from '../firebase/config';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications'; 
 import { addDoc, collection, setDoc, doc} from "firebase/firestore";
-import { db } from '../src/firebase/config'
+import { db } from '../firebase/config'
 import {
   StyleSheet,
   TextInput,

@@ -3,7 +3,7 @@
 
 // Import React and Component
 import React, {useState, createRef} from 'react';
-import { auth } from '../src/firebase/config';
+import { auth } from '../firebase/config';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import {Alert} from 'react-native';
 import { StackNavigator } from "react-navigation";

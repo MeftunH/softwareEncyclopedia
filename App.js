@@ -11,10 +11,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 // Import Screens
-import SplashScreen from './Screen/SplashScreen';
-import LoginScreen from './Screen/LoginScreen';
-import RegisterScreen from './Screen/RegisterScreen';
-import DrawerNavigationRoutes from './Screen/DrawerNavigationRoutes';
+import SplashScreen from './src/Screens/SplashScreen';
+import LoginScreen from './src/Screens/LoginScreen';
+import RegisterScreen from './src/Screens/RegisterScreen';
+import DrawerNavigationRoutes from './src/Screens/DrawerNavigationRoutes';
 LogBox.ignoreLogs(['Setting a timer']);
 const Stack = createStackNavigator();
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message

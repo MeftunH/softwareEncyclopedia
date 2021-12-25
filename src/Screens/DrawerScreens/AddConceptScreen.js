@@ -1,7 +1,7 @@
 import React, {useState,useEffect } from "react";
 import { SafeAreaView, StyleSheet, TextInput, Button, View, Text } from "react-native";
 import { collection, addDoc,storage,getDocs } from "firebase/firestore"; 
-import { db, auth } from '../../src/firebase/config'
+import { db, auth } from '../../firebase/config'
 import * as Notifications from 'expo-notifications';
 
 Notifications.setNotificationHandler({

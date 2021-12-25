@@ -2,7 +2,7 @@ import { StyleSheet, Text, FlatList, View, SafeAreaView } from 'react-native';
 import AppBar from './appbar';
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from '../../src/firebase/config'
+import { db } from '../../firebase/config'
 import LinearGradient from 'react-native-linear-gradient';
 export default function HomeScreen({ navigation }) {
 

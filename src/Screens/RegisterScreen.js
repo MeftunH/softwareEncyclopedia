@@ -22,10 +22,8 @@ import {
 import Loader from './Components/Loader';
 
 const RegisterScreen = (props,navigation) => {
-  const [userName, setUserName] = useState('');
+ 
   const [userEmail, setUserEmail] = useState('');
-  const [userAge, setUserAge] = useState('');
-  const [userAddress, setUserAddress] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
@@ -35,26 +33,13 @@ const RegisterScreen = (props,navigation) => {
   ] = useState(false);
 
   const emailInputRef = createRef();
-  const ageInputRef = createRef();
-  const addressInputRef = createRef();
   const passwordInputRef = createRef();
 
   const handleSubmitButton = () => {
     setErrortext('');
-    if (!userName) {
-      alert('Please fill Name');
-      return;
-    }
+
     if (!userEmail) {
       alert('Please fill Email');
-      return;
-    }
-    if (!userAge) {
-      alert('Please fill Age');
-      return;
-    }
-    if (!userAddress) {
-      alert('Please fill Address');
       return;
     }
     if (!userPassword) {
@@ -133,21 +118,7 @@ const RegisterScreen = (props,navigation) => {
           />
         </View>
         <KeyboardAvoidingView enabled>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserName) => setUserName(UserName)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Name"
-              placeholderTextColor="#8b9cb5"
-              autoCapitalize="sentences"
-              returnKeyType="next"
-              onSubmitEditing={() =>
-                emailInputRef.current && emailInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
+        
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -184,39 +155,7 @@ const RegisterScreen = (props,navigation) => {
               blurOnSubmit={false}
             />
           </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserAge) => setUserAge(UserAge)}
-              underlineColorAndroid="#f000"
-              placeholder="Enter Age"
-              placeholderTextColor="#8b9cb5"
-              keyboardType="numeric"
-              ref={ageInputRef}
-              returnKeyType="next"
-              onSubmitEditing={() =>
-                addressInputRef.current &&
-                addressInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserAddress) =>
-                setUserAddress(UserAddress)
-              }
-              underlineColorAndroid="#f000"
-              placeholder="Enter Address"
-              placeholderTextColor="#8b9cb5"
-              autoCapitalize="sentences"
-              ref={addressInputRef}
-              returnKeyType="next"
-              onSubmitEditing={Keyboard.dismiss}
-              blurOnSubmit={false}
-            />
-          </View>
+     
           {errortext != '' ? (
             <Text style={styles.errorTextStyle}>
               {errortext}

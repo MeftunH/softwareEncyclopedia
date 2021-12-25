@@ -24,7 +24,7 @@ export default function HomeScreen({ navigation }) {
 
     useEffect(() => {
         getData();
-    },[]);
+    });
     return (
         <View>
             {/* <AppBar></AppBar> */}

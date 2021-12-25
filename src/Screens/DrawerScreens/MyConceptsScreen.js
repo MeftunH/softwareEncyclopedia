@@ -1,4 +1,4 @@
-import { StyleSheet, Text, FlatList, View, Image } from 'react-native';
+import { StyleSheet, Text, FlatList, View, Image, Button, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { auth, db } from '../../firebase/config'
@@ -12,7 +12,7 @@ export default function MyConcepts({ navigation }) {
         const querySnapshot = await getDocs(collection(db, "concepts"));
         const newConcepts = [];
         querySnapshot.forEach((doc) => {
-            if (doc.data().user_email != user.email) {
+            if (doc.data().user_email == user.email) {
                 var title = doc.data().title;
                 var description = doc.data().description;
                 newConcepts.push({ title: title, description: description });
@@ -38,6 +38,11 @@ export default function MyConcepts({ navigation }) {
                             <Text style={styles.textTitle}>{item.title}</Text>
                             <Image style={styles.iconStyle} source={require('../../../assets/editIcon.png')}></Image>
                             <Image style={styles.iconStyle} source={require('../../../assets/trashIcon.png')}></Image>
+                            <View>
+                                <TouchableOpacity onPress={() => { alert("you clicked me") }}>
+                                    <Image style={styles.iconStyle} source={require('../../../assets/editIcon.png')}></Image>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                         <Text style={styles.textContent}>{item.description}</Text>
                     </View>}

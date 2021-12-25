@@ -37,6 +37,7 @@ export default function MyConcepts({ navigation }) {
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={styles.textTitle}>{item.title}</Text>
                             <Image style={styles.iconStyle} source={require('../../../assets/editIcon.png')}></Image>
+                            <Image style={styles.iconStyle} source={require('../../../assets/trashIcon.png')}></Image>
                         </View>
                         <Text style={styles.textContent}>{item.description}</Text>
                     </View>}
@@ -45,9 +46,13 @@ export default function MyConcepts({ navigation }) {
     )
 }
 const styles = StyleSheet.create({
+
     iconStyle: {
         height: 15,
         width: 15,
+        paddingTop: 20,
+        paddingRight: 20,
+        marginLeft: 10,
     },
     titleStyle: {
         fontWeight: 'bold',
@@ -79,7 +84,8 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingBottom: 5,
         fontSize: 18,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        flex: 1,
     },
     textContent: {
         flex: 1,

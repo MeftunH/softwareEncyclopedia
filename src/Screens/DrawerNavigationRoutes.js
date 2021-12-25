@@ -14,7 +14,7 @@ import SettingsScreen from './DrawerScreens/SettingsScreen';
 import AddConceptScreen from './DrawerScreens/AddConceptScreen';
 import CustomSidebarMenu from './Components/CustomSidebarMenu';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
-import AddConcept from './DrawerScreens/AddConceptScreen';
+import FaqScreen from './DrawerScreens/FaqScreen';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -43,10 +43,10 @@ const homeScreenStack = ({navigation}) => {
   );
 };
 
-const settingScreenStack = ({navigation}) => {
+const faqScreenStack = ({navigation}) => {
   return (
     <Stack.Navigator
-      initialRouteName="SettingsScreen"
+      initialRouteName="FaqScreen"
       screenOptions={{
         headerLeft: () => (
           <NavigationDrawerHeader navigationProps={navigation} />
@@ -60,10 +60,10 @@ const settingScreenStack = ({navigation}) => {
         },
       }}>
       <Stack.Screen
-        name="SettingsScreen"
-        component={SettingsScreen}
+        name="FaqScreen"
+        component={FaqScreen}
         options={{
-          title: 'Settings', //Set Header Title
+          title: 'FAQ', //Set Header Title
         }}
       />
     </Stack.Navigator>
@@ -117,6 +117,11 @@ const DrawerNavigatorRoutes = (props) => {
         name="addConceptStack"
         options={{drawerLabel: 'Add Concept Screen'}}
         component={addConceptStack}
+      />
+       <Drawer.Screen
+        name="faqScreenStack"
+        options={{drawerLabel: 'FAQ'}}
+        component={faqScreenStack}
       />
     </Drawer.Navigator>
   );

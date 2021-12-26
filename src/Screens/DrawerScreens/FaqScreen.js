@@ -33,7 +33,7 @@ export default function FaqScreen() {
         <FlatList
             data={data}
             renderItem={renderList}
-            keyExtractor={(item) => item.id.toString()}
+        //  keyExtractor={(item) => item.id.toString()}
         />
     );
 

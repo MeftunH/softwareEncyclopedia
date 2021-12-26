@@ -32,7 +32,7 @@ export default function MyProfileScreen(props) {
             </View>
             <View style={styles.SectionStyle}>
                 <TextInput
-                    value={data.bio}
+                    value={data[0].bio}
                     style={styles.inputStyle}
                     placeholder="Biography"
                     placeholderTextColor="#8b9cb5"
@@ -45,7 +45,7 @@ export default function MyProfileScreen(props) {
             <View style={styles.SectionStyle}>
                 <TextInput
                     style={styles.inputStyle}
-                    value={data.job}
+                    value={data[0].job}
                     placeholder="Job Description"
                     placeholderTextColor="#8b9cb5"
                     autoCapitalize="none"

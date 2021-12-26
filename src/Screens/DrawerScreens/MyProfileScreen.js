@@ -1,9 +1,20 @@
-import React from 'react';
 import { View, Text, StyleSheet, TextInput, Image,TouchableOpacity,Alert,AsyncStorage } from 'react-native';
+import React, { useLayoutEffect, useState, useEffect } from "react";
 import { auth } from '../../firebase/config'
+import { onSnapshot, collection, getDocs,where, } from "firebase/firestore";
+import { db } from '../../firebase/config'
 
 export default function MyProfileScreen(props) {
     const user = auth.currentUser;
+    const [data, setData] = useState([]);
+    useEffect(
+        () =>
+          onSnapshot(collection(db, "users"), where("email", "==", user.Email), (snapshot) =>
+          setData(snapshot.docs.map((doc) => ({ ...doc.data(),email:doc.email, bio: doc.data().bio,job: doc.data().job })))
+          ),
+       []
+      );
+      console.log(data)
     return (
         <View>
             <View style={styles.card}>

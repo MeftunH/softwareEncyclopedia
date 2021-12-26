@@ -6,19 +6,18 @@ export default function MyConcepts({ navigation }) {
     const user = auth.currentUser;
     const [data, setData] = useState([]);
     const getData = async () => {
-       
-const q = query(collection(db, "concepts"), where("user_email", "==", user.email));
+        console.log('get data');
+        const querySnapshot = await getDocs(collection(db, "concepts"));
+        const newConcepts = [];
+        querySnapshot.forEach((doc) => {
+            if (doc.data().user_email == user.email) {
+                var title = doc.data().title;
+                var description = doc.data().description;
+                newConcepts.push({ title: title, description: description });
+            }
 
-const querySnapshot = await getDocs(q);
-const myConcepts = [];
-querySnapshot.forEach((doc) => {
-    if (doc.data().user_email != user.email) {
-        var title = doc.data().title;
-        var description = doc.data().description;
-        myConcepts.push({ title: title, description: description });
-    }
-  console.log(doc.id, " => ", doc.data());
-});
+        });
+        setData(newConcepts);
     }
     
     useEffect(() => {

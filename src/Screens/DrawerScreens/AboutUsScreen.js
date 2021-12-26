@@ -22,7 +22,7 @@ export default function AboutUsScreen({ navigation }) {
                 renderItem={({ item }) =>
                     <View style={[styles.card, { flexDirection: 'column' },]}>
                         <Text style={styles.textTitle}>{item.title}</Text>
-                        <Text style={styles.textContent}>{item.description}</Text>
+                        <Text style={styles.textContent}>{item.body}</Text>
                     </View>}
             />
 

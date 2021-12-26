@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Image,TouchableOpacity,Alert,AsyncStorage } from 'react-native';
 import { auth } from '../../firebase/config'
 
-export default function MyProfileScreen() {
+export default function MyProfileScreen(props) {
     const user = auth.currentUser;
     return (
         <View>
@@ -32,7 +32,30 @@ export default function MyProfileScreen() {
                 />
             </View>
             <View style={[styles.logoutViewStyle, { flexDirection: 'row' },]}>
-                <Image style={styles.iconStyle} source={require('../../../assets/logoutIcon.png')}></Image>
+            <TouchableOpacity   onPress={() => {
+            Alert.alert(
+              'Logout',
+              'Are you sure? You want to logout?',
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => {
+                    return null;
+                  },
+                },
+                {
+                  text: 'Confirm',
+                  onPress: () => {
+                    AsyncStorage.clear();
+                    props.navigation.replace('Auth');
+                  },
+                },
+              ],
+              {cancelable: false},
+            );
+          }}>
+            <Image style={styles.iconStyle} source={require('../../../assets/logoutIcon.png')}></Image>
+            </TouchableOpacity>
                 <Text style={styles.logoutTextStyle}>
                     Logout
                 </Text>

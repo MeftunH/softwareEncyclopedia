@@ -1,13 +1,14 @@
 import { StyleSheet, Text, FlatList, View, Image, Button, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from "react";
-import { collection, getDocs, where, query } from "firebase/firestore";
+import { collection, getDocs, where, query, doc, deleteDoc } from "firebase/firestore";
 import { auth, db } from '../../firebase/config'
 export default function MyConcepts({ navigation }) {
     const user = auth.currentUser;
     const [data, setData] = useState([]);
     const [title, seTitle] = useState('');
+    const [id, setId] = useState('');
     const [description, setDescription] = useState([]);
-    
+
     const getData = async () => {
         const q = query(collection(db, "concepts"), where("user_email", "==", user.email));
 
@@ -15,28 +16,28 @@ export default function MyConcepts({ navigation }) {
         const newConcepts = [];
         querySnapshot.forEach((doc) => {
             var title = doc.data().title;
+            var id = doc.id;
             var description = doc.data().description;
-            newConcepts.push({ title: title, description: description });
+            newConcepts.push({ title: title, description: description, id: id });
         });
         setData(newConcepts);
     }
     const deleteData = async (conceptId) => {
         const conceptDocRef = doc(db, 'concepts', conceptId)
-    try{
-      await deleteDoc(conceptDocRef).then( Alert.alert(
-        "Deleted",
-        "Concept Deleted",
-        [
-          { text: "OK", onPress: () => console.log("OK Pressed") }
-        ]
-      ))
-    } catch (err) {
-      alert(err)
-    }
+        try {
+            await deleteDoc(conceptDocRef).then(Alert.alert(
+                "Deleted",
+                "Concept Deleted",
+                [
+                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                ]
+            ))
+        } catch (err) {
+        }
     }
     useEffect(() => {
         getData()
-    },[data]);
+    }, [data]);
     return (
         <View>
             <Text style={styles.titleStyle}> My Concepts</Text>
@@ -48,11 +49,6 @@ export default function MyConcepts({ navigation }) {
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={styles.textTitle}>{item.title}</Text>
                             <View>
-                                <TouchableOpacity onPress={() => { alert("you clicked me") }}>
-                                    <Image style={styles.iconStyle} source={require('../../../assets/editIcon.png')}></Image>
-                                </TouchableOpacity>
-                            </View>
-                            <View>
                                 <TouchableOpacity onPress={() => { deleteData(item.id) }}>
                                     <Image style={styles.iconStyle} source={require('../../../assets/trashIcon.png')}></Image>
                                 </TouchableOpacity>
@@ -63,7 +59,7 @@ export default function MyConcepts({ navigation }) {
             />
         </View>
     )
-   
+
 }
 const styles = StyleSheet.create({
 

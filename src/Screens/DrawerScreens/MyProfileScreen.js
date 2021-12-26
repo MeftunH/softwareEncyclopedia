@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TextInput, Image, TouchableOpacity, Alert, AsyncStorage } from 'react-native';
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { auth } from '../../firebase/config'
-import { onSnapshot, collection, getDocs, where,updateDoc,doc  } from "firebase/firestore";
+import { onSnapshot, collection, getDocs, where, updateDoc, doc } from "firebase/firestore";
 import { db } from '../../firebase/config'
 
 export default function MyProfileScreen(props) {
@@ -13,7 +13,7 @@ export default function MyProfileScreen(props) {
     const [job, SetJob] = useState();
     const [updateJob, setUpdateJob] = useState();
     const [text, onChangeText] = React.useState("Useless Text");
-  const [number, onChangeNumber] = React.useState(null);
+    const [number, onChangeNumber] = React.useState(null);
     const getData = async () => {
         const querySnapshot = await getDocs(collection(db, "users"));
         const newConcepts = [];
@@ -29,90 +29,33 @@ export default function MyProfileScreen(props) {
     }
     const updateUser = async () => {
         db.collection('users').doc(id).get()
-        .then(snapshot => setUserDetails(snapshot.data()))
+            .then(snapshot => setUserDetails(snapshot.data()))
         console.log(updateBio);
         console.log(updateJob);
         const userDocRef = doc(db, 'users', "05MvHym5g6veld98Lliw");
         updateDoc(userDocRef, {
             bio: updateBio,
             job: updateJob
-          });
+        });
     }
     useEffect(() => {
-        
-        if(loadingAct == true){
-        getData();
-    setLoadingAct(false);
+
+        if (loadingAct == true) {
+            getData();
+            setLoadingAct(false);
         }
         data.map((item) => {
             SetJob(item.job);
             SetBio(item.bio);
         });
 
-    
-    },[]);
+
+    }, []);
     return (
         <View>
             <View style={styles.card}>
                 <Text style={styles.textTitle}>{user.email}</Text>
             </View>
-            <View style={styles.SectionStyle}>
-
-                <TextInput
-                    value={bio}
-                    disabled={true}
-                    style={styles.inputStyle}
-                    placeholder="Biography"
-                    placeholderTextColor="#8b9cb5"
-                    autoCapitalize="none"
-                    returnKeyType="next"
-                    underlineColorAndroid="#f000"
-                    blurOnSubmit={false}
-                />
-            </View>
-            <View style={styles.SectionStyle}>
-                <TextInput
-                    style={styles.inputStyle}
-                    value={job}
-                    disabled={true}
-                    placeholder="Job Description"
-                    placeholderTextColor="#0000"
-                    autoCapitalize="none"
-                    returnKeyType="next"
-                    underlineColorAndroid="#f000"
-                    blurOnSubmit={false}
-                />
-            </View>
-            <View><Text>Update Your Information</Text></View>
-            <View>
-            <TextInput
-        style={styles.input}
-        onChangeText={onChangeNumber}
-        value={updateBio}
-        placeholder="Bio"
-         onChangeText={updateBio => setUpdateBio(updateBio)}
-      />
-            </View>
-            <View>
-            <TextInput
-        style={styles.input}
-        onChangeText={onChangeText}
-        value={updateJob}
-        placeholder="Job"
-       onChangeText={updateJob => setUpdateJob(updateJob)}
-      />
-            </View>
-            <View style={[styles.logoutViewStyle, { flexDirection: 'row' },]}>
-
-<TouchableOpacity onPress={() => {
-   updateUser();
-}}>
-    <Image style={styles.iconStyle} source={require('../../../assets/saveIcon.jpeg')}></Image>
-</TouchableOpacity>
-<Text style={styles.saveTextStyle}>
-    Save
-</Text>
-</View>
             <View style={[styles.logoutViewStyle, { flexDirection: 'row' },]}>
                 <TouchableOpacity onPress={() => {
                     Alert.alert(

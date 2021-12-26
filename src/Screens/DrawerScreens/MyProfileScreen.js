@@ -7,14 +7,24 @@ import { db } from '../../firebase/config'
 export default function MyProfileScreen(props) {
     const user = auth.currentUser;
     const [data, setData] = useState([]);
-    useEffect(
-        () =>
-          onSnapshot(collection(db, "users"), where("email", "==", user.Email), (snapshot) =>
-          setData(snapshot.docs.map((doc) => ({ ...doc.data(),email:doc.email, bio: doc.data().bio,job: doc.data().job })))
-          ),
-       []
-      );
-      console.log(data)
+    const getData = async () => {
+        console.log('get data');
+        const querySnapshot = await getDocs(collection(db, "users"));
+        const newConcepts = [];
+        querySnapshot.forEach((doc) => {
+            if (doc.data().email == user.email) {
+                var bio = doc.data().bio;
+                var job = doc.data().job;
+                newConcepts.push({ bio: bio, job: job });
+            }
+
+        });
+        setData(newConcepts);
+    }
+    console.log(data)
+    useEffect(() => {
+        getData();
+    }, []);
     return (
         <View>
             <View style={styles.card}>
@@ -22,6 +32,7 @@ export default function MyProfileScreen(props) {
             </View>
             <View style={styles.SectionStyle}>
                 <TextInput
+                    value={data.bio}
                     style={styles.inputStyle}
                     placeholder="Biography"
                     placeholderTextColor="#8b9cb5"
@@ -34,6 +45,7 @@ export default function MyProfileScreen(props) {
             <View style={styles.SectionStyle}>
                 <TextInput
                     style={styles.inputStyle}
+                    value={data.job}
                     placeholder="Job Description"
                     placeholderTextColor="#8b9cb5"
                     autoCapitalize="none"

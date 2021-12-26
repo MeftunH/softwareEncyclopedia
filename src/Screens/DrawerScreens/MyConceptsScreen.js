@@ -1,70 +1,53 @@
-import { StyleSheet, Text, FlatList, View, Image, Button, TouchableOpacity,Alert  } from 'react-native';
+import { StyleSheet, Text, FlatList, View, Image, Button, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from "react";
-import { doc,onSnapshot,collection, getDocs,deleteDoc ,where,query,snapshot} from "firebase/firestore";
+import { collection, getDocs,where,query } from "firebase/firestore";
 import { auth, db } from '../../firebase/config'
 export default function MyConcepts({ navigation }) {
     const user = auth.currentUser;
     const [data, setData] = useState([]);
+    const [title, seTitle] = useState('');
+    const [description, setDescription] = useState([]);
     const getData = async () => {
-        console.log('get data');
-        const querySnapshot = await getDocs(collection(db, "concepts"));
+        const q = query(collection(db, "concepts"), where("user_email", "==", user.email));
+
+        const querySnapshot = await getDocs(q);
         const newConcepts = [];
         querySnapshot.forEach((doc) => {
-            if (doc.data().user_email == user.email) {
-                var title = doc.data().title;
-                var description = doc.data().description;
-                newConcepts.push({ title: title, description: description });
-            }
-
+            var title = doc.data().title;
+            var description = doc.data().description;
+            newConcepts.push({ title: title, description: description });
         });
         setData(newConcepts);
     }
-    
-    useEffect(() => {
-        getData();
-    }, []);
-      console.log(data)
-    const deleteData = async (conceptId) => {
-        const conceptDocRef = doc(db, 'concepts', conceptId)
-    try{
-      await deleteDoc(conceptDocRef).then( Alert.alert(
-        "Deleted",
-        "Concept Deleted",
-        [
-          { text: "OK", onPress: () => console.log("OK Pressed") }
-        ]
-      ))
-    } catch (err) {
-      alert(err)
-    }
-    }
 
-    
+    useEffect(() => {
+        getData()  
+    },);
     return (
         <View>
-            <Text style={styles.titleStyle}> My Concepts</Text>
-            <FlatList
-                data={data}
-                style={styles.container}
-                renderItem={({ item }) =>
-                    <View style={[styles.card, { flexDirection: 'column' },]}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={styles.textTitle}>{item.title}</Text>
-                            <View>
-                                <TouchableOpacity onPress={() => { alert("you clicked me") }}>
-                                    <Image style={styles.iconStyle} source={require('../../../assets/editIcon.png')}></Image>
-                                </TouchableOpacity>
-                            </View>
-                            <View>
-                                <TouchableOpacity onPress={() => { deleteData(item.id) }}>
-                                <Image style={styles.iconStyle} source={require('../../../assets/trashIcon.png')}></Image>
-                                </TouchableOpacity>
-                            </View>
+        <Text style={styles.titleStyle}> My Concepts</Text>
+        <FlatList
+            data={data}
+            style={styles.container}
+            renderItem={({ item }) =>
+                <View style={[styles.card, { flexDirection: 'column' },]}>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={styles.textTitle}>{item.title}</Text>
+                        <View>
+                            <TouchableOpacity onPress={() => { alert("you clicked me") }}>
+                                <Image style={styles.iconStyle} source={require('../../../assets/editIcon.png')}></Image>
+                            </TouchableOpacity>
                         </View>
-                        <Text style={styles.textContent}>{item.description}</Text>
-                    </View>}
-            />
-        </View>
+                        <View>
+                            <TouchableOpacity onPress={() => { deleteData(item.id) }}>
+                            <Image style={styles.iconStyle} source={require('../../../assets/trashIcon.png')}></Image>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <Text style={styles.textContent}>{item.description}</Text>
+                </View>}
+        />
+    </View>
     )
 }
 const styles = StyleSheet.create({

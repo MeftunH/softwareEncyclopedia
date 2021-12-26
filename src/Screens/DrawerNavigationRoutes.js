@@ -16,7 +16,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import BottomTabNavigator from "./TabNavigation/TabNavigator";
 import MyConceptScreen from './DrawerScreens/MyConceptsScreen';
 import AboutUsScreen from './DrawerScreens/AboutUsScreen';
-import MyProfile from './DrawerScreens/MyProfile';
+import MyProfileScreen from './DrawerScreens/MyProfileScreen';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
@@ -241,6 +241,55 @@ const MyConceptsBottomTabStack = () => {
     </Tab.Navigator>
   );
 }
+const MyProfileBottomTabStack = () => {
+  return (
+    <Tab.Navigator screenOptions={{ headerShown: false }}
+      initialRouteName="MyProfile"
+      tabBarOptions={{
+        activeTintColor: 'tomato',
+        inactiveTintColor: 'gray',
+        style: {
+          backgroundColor: '#e0e0e0',
+        },
+        labelStyle: {
+          textAlign: 'center',
+          fontSize: 16,
+        },
+      }}>
+      <Tab.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="home-outline" size={32} color="black" />
+        }}
+      />
+      <Tab.Screen
+        name="FAQ"
+        component={FaqScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="help-outline" size={32} color="black" />
+        }}
+      />
+      <Tab.Screen
+        name="Add Concept"
+        component={AddConceptScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="add-circle-outline" size={32} color="green" />
+
+        }}
+      /> 
+      <Tab.Screen
+      name="MyProfile"
+      component={MyProfileScreen}
+      options={{
+        tabBarIcon: ({ color, size }) => <Ionicons name="add-circle-outline" size={32} color="green" />,
+        tabBarButton: props => null,
+
+      }}
+    />
+    </Tab.Navigator>
+  );
+}
 //stacks
 const homeScreenStack = ({ navigation }) => {
   return (
@@ -369,7 +418,7 @@ const aboutUsStack = ({ navigation }) => {
     </Stack.Navigator>
   );
 };
-const MyProfileStack = ({ navigation }) => {
+const myProfileStack = ({ navigation }) => {
   return (
     <Stack.Navigator
       initialRouteName="MyProfile"
@@ -387,7 +436,7 @@ const MyProfileStack = ({ navigation }) => {
       }}>
       <Stack.Screen
         name="MyProfileScreen"
-        component={MyProfile}
+        component={MyProfileBottomTabStack}
         options={{
           title: 'My Profile', //Set Header Title
         }}
@@ -440,7 +489,7 @@ const DrawerNavigatorRoutes = (props) => {
       <Drawer.Screen
         name="MyProfileStack"
         options={{ drawerLabel: 'My Profile' }}
-        component={MyProfile}
+        component={myProfileStack}
       />
 
     </Drawer.Navigator>

@@ -9,30 +9,22 @@ export default function AboutUsScreen({ navigation }) {
    
     const getData = async () => {
         const querySnapshot = await getDocs(collection(db, "aboutUs"));
-        const newConcepts = [];
+        const aboutUsData = [];
         querySnapshot.forEach((doc) => {
-            if (doc.data().email == user.email) {
-                var bio = doc.data().bio;
-                var job = doc.data().job;
-                newConcepts.push({ bio: bio, job: job });
-            }
+                setDescription(doc.data().description);
+                aboutUsData.push({ description: description });
 
         });
-        setData(newConcepts);
+        setData(aboutUsData);
     }
   
     useEffect(() => {
         
         if(loadingAct == true){
         getData();
-    setLoadingAct(false);
+        setLoadingAct(false);
         }
-        data.map((item) => {
-            SetJob(item.job);
-            SetBio(item.bio);
-        });
-    console.log(job) 
-    
+
     });
     return (
         <View style={[styles.card, { flexDirection: 'column' },]}>

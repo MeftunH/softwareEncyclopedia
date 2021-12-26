@@ -421,7 +421,7 @@ const aboutUsStack = ({ navigation }) => {
 const myProfileStack = ({ navigation }) => {
   return (
     <Stack.Navigator
-      initialRouteName="MyProfile"
+      initialRouteName="MyProfileScreen"
       screenOptions={{
         headerLeft: () => (
           <NavigationDrawerHeader navigationProps={navigation} />

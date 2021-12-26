@@ -6,7 +6,10 @@ import { db } from '../../firebase/config'
 
 export default function MyProfileScreen(props) {
     const user = auth.currentUser;
+    const [loadingAct, setLoadingAct] = useState(true);
     const [data, setData] = useState([]);
+    const [bio, SetBio] = useState();
+    const [job, SetJob] = useState();
     const getData = async () => {
         console.log('get data');
         const querySnapshot = await getDocs(collection(db, "users"));
@@ -23,16 +26,27 @@ export default function MyProfileScreen(props) {
     }
     console.log(data)
     useEffect(() => {
+        
+        if(loadingAct == true){
         getData();
-    }, []);
+    setLoadingAct(false);
+        }
+        data.map((item) => {
+            SetJob(item.job);
+            SetBio(item.bio);
+        });
+    console.log(job) 
+    
+    });
     return (
         <View>
             <View style={styles.card}>
                 <Text style={styles.textTitle}>{user.email}</Text>
             </View>
             <View style={styles.SectionStyle}>
+
                 <TextInput
-                    value={data.bio}
+                    value={bio}
                     style={styles.inputStyle}
                     placeholder="Biography"
                     placeholderTextColor="#8b9cb5"
@@ -45,7 +59,7 @@ export default function MyProfileScreen(props) {
             <View style={styles.SectionStyle}>
                 <TextInput
                     style={styles.inputStyle}
-                    value={data.job}
+                    value={job}
                     placeholder="Job Description"
                     placeholderTextColor="#8b9cb5"
                     autoCapitalize="none"
@@ -55,37 +69,6 @@ export default function MyProfileScreen(props) {
                 />
             </View>
             <View style={[styles.logoutViewStyle, { flexDirection: 'row' },]}>
-
-                <TouchableOpacity onPress={() => {
-                    Alert.alert(
-                        'Save',
-                        'Are you sure?',
-                        [
-                            {
-                                text: 'Cancel',
-                                onPress: () => {
-                                    return null;
-                                },
-                            },
-                            {
-                                text: 'Confirm',
-                                onPress: () => {
-                                    AsyncStorage.clear();
-                                    props.navigation.replace('Auth');
-                                },
-                            },
-                        ],
-                        { cancelable: false },
-                    );
-                }}>
-                    <Image style={styles.iconStyle} source={require('../../../assets/saveIcon.jpeg')}></Image>
-                </TouchableOpacity>
-                <Text style={styles.saveTextStyle}>
-                    Save
-                </Text>
-            </View>
-            <View style={[styles.logoutViewStyle, { flexDirection: 'row' },]}>
-
                 <TouchableOpacity onPress={() => {
                     Alert.alert(
                         'Logout',
@@ -128,10 +111,6 @@ const styles = StyleSheet.create({
     },
     logoutTextStyle: {
         color: 'red',
-        fontWeight: 'bold',
-    },
-    saveTextStyle: {
-        color: 'blue',
         fontWeight: 'bold',
     },
     logoutViewStyle: {

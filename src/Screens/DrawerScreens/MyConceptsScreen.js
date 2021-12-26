@@ -22,7 +22,7 @@ export default function MyConcepts({ navigation }) {
 
     useEffect(() => {
         getData()
-    });
+    },[data]);
     return (
         <View>
             <Text style={styles.titleStyle}> My Concepts</Text>

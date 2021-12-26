@@ -4,6 +4,7 @@ import { collection, getDocs, query, } from "firebase/firestore";
 import { db } from '../../firebase/config'
 export default function AboutUsScreen({ navigation }) {
     const [data, setData] = useState([]);
+    const [loadingAct, setLoadingAct] = useState(true);
     var description;
     const getData = async () => {
         const q = query(collection(db, "abaoutUs"));
@@ -17,8 +18,11 @@ export default function AboutUsScreen({ navigation }) {
     }
 
     useEffect(() => {
-        getData();
-    }, []);
+        if (loadingAct == true) {
+            getData();
+            setLoadingAct(false);
+        }
+    });
     return (
         <View style={[styles.card, { flexDirection: 'column' },]}>
             <Text>{description}</Text>

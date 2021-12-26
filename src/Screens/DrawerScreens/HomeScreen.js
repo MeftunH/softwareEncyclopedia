@@ -11,7 +11,7 @@ export default function HomeScreen({ navigation }) {
             onSnapshot(collection(db, "concepts"), (snapshot) =>
                 setData(snapshot.docs.map((doc) => ({ ...doc.data(), title: doc.data().title, description: doc.data().description })))
             ),
-        []
+        [data]
     );
 
 

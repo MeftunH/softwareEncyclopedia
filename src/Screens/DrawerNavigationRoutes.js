@@ -16,6 +16,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import BottomTabNavigator from "./TabNavigation/TabNavigator";
 import MyConceptScreen from './DrawerScreens/MyConceptsScreen';
 import AbaoutUs from './DrawerScreens/AbaoutUs';
+import MyProfile from './DrawerScreens/MyProfile';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
@@ -270,7 +271,32 @@ const AbaoutUsStack = ({ navigation }) => {
     </Stack.Navigator>
   );
 };
-
+const MyProfileStack = ({ navigation }) => {
+  return (
+    <Stack.Navigator
+      initialRouteName="MyProfile"
+      screenOptions={{
+        headerLeft: () => (
+          <NavigationDrawerHeader navigationProps={navigation} />
+        ),
+        headerStyle: {
+          backgroundColor: '#307ecc', //Set Header color
+        },
+        headerTintColor: '#fff', //Set Header text color
+        headerTitleStyle: {
+          fontWeight: 'bold', //Set Header text style
+        },
+      }}>
+      <Stack.Screen
+        name="MyProfileScreen"
+        component={MyProfile}
+        options={{
+          title: 'My Profile', //Set Header Title
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
 //main nav
 const DrawerNavigatorRoutes = (props) => {
   return (
@@ -312,6 +338,11 @@ const DrawerNavigatorRoutes = (props) => {
         name="AbaoutUsStack"
         options={{ drawerLabel: 'Abaout Us' }}
         component={AbaoutUs}
+      />
+      <Drawer.Screen
+        name="MyProfileStack"
+        options={{ drawerLabel: 'My Profile' }}
+        component={MyProfile}
       />
 
     </Drawer.Navigator>

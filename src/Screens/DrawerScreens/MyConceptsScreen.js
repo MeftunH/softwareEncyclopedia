@@ -7,6 +7,7 @@ export default function MyConcepts({ navigation }) {
     const [data, setData] = useState([]);
     const [title, seTitle] = useState('');
     const [description, setDescription] = useState([]);
+    
     const getData = async () => {
         const q = query(collection(db, "concepts"), where("user_email", "==", user.email));
 
@@ -19,7 +20,20 @@ export default function MyConcepts({ navigation }) {
         });
         setData(newConcepts);
     }
-
+    const deleteData = async (conceptId) => {
+        const conceptDocRef = doc(db, 'concepts', conceptId)
+    try{
+      await deleteDoc(conceptDocRef).then( Alert.alert(
+        "Deleted",
+        "Concept Deleted",
+        [
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      ))
+    } catch (err) {
+      alert(err)
+    }
+    }
     useEffect(() => {
         getData()
     },[data]);
@@ -49,6 +63,7 @@ export default function MyConcepts({ navigation }) {
             />
         </View>
     )
+   
 }
 const styles = StyleSheet.create({
 

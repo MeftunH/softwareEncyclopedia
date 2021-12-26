@@ -1,11 +1,8 @@
-// Example of Splash, Login and Sign Up in React Native
-// https://aboutreact.com/react-native-login-and-signup/
-
-// Import React and Component
 import React, {useState, createRef} from 'react';
-import { auth } from '../firebase/config';
+import { db,auth } from '../firebase/config';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import {Alert} from 'react-native';
+import { collection, addDoc } from "firebase/firestore";
 import { StackNavigator } from "react-navigation";
 import {
   StyleSheet,
@@ -24,6 +21,8 @@ import Loader from './Components/Loader';
 const RegisterScreen = (props,navigation) => {
  
   const [userEmail, setUserEmail] = useState('');
+  const [userBio, setUserBio] = useState('');
+  const [userJob, setUserJob] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
@@ -34,8 +33,10 @@ const RegisterScreen = (props,navigation) => {
 
   const emailInputRef = createRef();
   const passwordInputRef = createRef();
+  const bioInputRef = createRef();
+  const jobInputRef = createRef();
 
-  const handleSubmitButton = () => {
+  const handleSubmitButton  = async () => {
     setErrortext('');
 
     if (!userEmail) {
@@ -46,7 +47,20 @@ const RegisterScreen = (props,navigation) => {
       alert('Please fill Password');
       return;
     }
-    createUserWithEmailAndPassword(auth, userEmail, userPassword)
+    if (!userBio) {
+      alert('Please fill Biography');
+      return;
+    }
+    if (!userJob) {
+      alert('Please fill Job Description');
+      return;
+    }
+    const docRef = await addDoc(collection(db, "users"), {
+      email: userEmail.toLowerCase(),
+      bio: userBio,
+      job: userJob,
+    });
+    createUserWithEmailAndPassword(auth, userEmail, userPassword,userBio,userJob)
             .then((userCredential) => {
                 Alert.alert(
                     "Kayit Basarili",
@@ -118,7 +132,39 @@ const RegisterScreen = (props,navigation) => {
           />
         </View>
         <KeyboardAvoidingView enabled>
-        
+
+        <View style={styles.SectionStyle}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={(UserBio) => setUserBio(UserBio)}
+              underlineColorAndroid="#f000"
+              placeholder="Enter Biography"
+              placeholderTextColor="#8b9cb5"
+              autoCapitalize="sentences"
+              returnKeyType="next"
+              onSubmitEditing={() =>
+                emailInputRef.current && emailInputRef.current.focus()
+              }
+              blurOnSubmit={false}
+            />
+          </View>
+
+          <View style={styles.SectionStyle}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={(UserJob) => setUserJob(UserJob)}
+              underlineColorAndroid="#f000"
+              placeholder="Enter Job Description"
+              placeholderTextColor="#8b9cb5"
+              autoCapitalize="sentences"
+              returnKeyType="next"
+              onSubmitEditing={() =>
+                emailInputRef.current && emailInputRef.current.focus()
+              }
+              blurOnSubmit={false}
+            />
+          </View>
+
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}

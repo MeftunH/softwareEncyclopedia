@@ -60,6 +60,7 @@ const RegisterScreen = (props,navigation) => {
       bio: userBio,
       job: userJob,
     });
+  
     createUserWithEmailAndPassword(auth, userEmail, userPassword,userBio,userJob)
             .then((userCredential) => {
                 Alert.alert(

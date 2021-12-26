@@ -7,15 +7,30 @@ import Accordion from '@gapur/react-native-accordion'; //https://www.npmjs.com/p
 
 export default function FaqScreen() {
     const [data, setData] = useState([]);
+    const [description, setDescription] = useState();
+    const [loadingAct, setLoadingAct] = useState(true);
+    const [title, setTitle] = useState();
 
-    useEffect(
-        () =>
-            onSnapshot(collection(db, "FAQ"), (snapshot) =>
-                setData(snapshot.docs.map((doc) => ({ ...doc.data(), title: doc.data().title, description: doc.data().description })))
-            ),
-        []
-    );
+    const getData = async () => {
+        const querySnapshot = await getDocs(collection(db, "FAQ"));
+        const faqs = [];
+        querySnapshot.forEach((doc) => {
+                setDescription(doc.data().description);
+                setTitle(doc.data().title);
+                faqs.push({ title:title,description: description });
 
+        });
+        console.log(faqs);
+        setData(faqs);
+    }
+     useEffect(() => {
+        
+        if(loadingAct == true){
+        getData();
+        setLoadingAct(false); 
+        }
+
+    });
 
 
 
@@ -33,7 +48,7 @@ export default function FaqScreen() {
         <FlatList
             data={data}
             renderItem={renderList}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) => title}
         />
     );
 

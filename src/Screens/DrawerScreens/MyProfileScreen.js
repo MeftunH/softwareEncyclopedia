@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TextInput, Image, TouchableOpacity, Alert, AsyncStorage } from 'react-native';
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { auth } from '../../firebase/config'
-import { onSnapshot, collection, getDocs, where, } from "firebase/firestore";
+import { onSnapshot, collection, getDocs, where,updateDoc,doc  } from "firebase/firestore";
 import { db } from '../../firebase/config'
 
 export default function MyProfileScreen(props) {
@@ -9,9 +9,12 @@ export default function MyProfileScreen(props) {
     const [loadingAct, setLoadingAct] = useState(true);
     const [data, setData] = useState([]);
     const [bio, SetBio] = useState();
+    const [updateBio, setUpdateBio] = useState();
     const [job, SetJob] = useState();
+    const [updateJob, setUpdateJob] = useState();
+    const [text, onChangeText] = React.useState("Useless Text");
+  const [number, onChangeNumber] = React.useState(null);
     const getData = async () => {
-        console.log('get data');
         const querySnapshot = await getDocs(collection(db, "users"));
         const newConcepts = [];
         querySnapshot.forEach((doc) => {
@@ -24,7 +27,17 @@ export default function MyProfileScreen(props) {
         });
         setData(newConcepts);
     }
-  
+    const updateUser = async () => {
+        db.collection('users').doc(id).get()
+        .then(snapshot => setUserDetails(snapshot.data()))
+        console.log(updateBio);
+        console.log(updateJob);
+        const userDocRef = doc(db, 'users', "05MvHym5g6veld98Lliw");
+        updateDoc(userDocRef, {
+            bio: updateBio,
+            job: updateJob
+          });
+    }
     useEffect(() => {
         
         if(loadingAct == true){
@@ -35,9 +48,9 @@ export default function MyProfileScreen(props) {
             SetJob(item.job);
             SetBio(item.bio);
         });
-    console.log(job) 
+
     
-    });
+    },[]);
     return (
         <View>
             <View style={styles.card}>
@@ -47,6 +60,7 @@ export default function MyProfileScreen(props) {
 
                 <TextInput
                     value={bio}
+                    disabled={true}
                     style={styles.inputStyle}
                     placeholder="Biography"
                     placeholderTextColor="#8b9cb5"
@@ -60,6 +74,7 @@ export default function MyProfileScreen(props) {
                 <TextInput
                     style={styles.inputStyle}
                     value={job}
+                    disabled={true}
                     placeholder="Job Description"
                     placeholderTextColor="#0000"
                     autoCapitalize="none"
@@ -68,10 +83,29 @@ export default function MyProfileScreen(props) {
                     blurOnSubmit={false}
                 />
             </View>
+            <View><Text>Update Your Information</Text></View>
+            <View>
+            <TextInput
+        style={styles.input}
+        onChangeText={onChangeNumber}
+        value={updateBio}
+        placeholder="Bio"
+         onChangeText={updateBio => setUpdateBio(updateBio)}
+      />
+            </View>
+            <View>
+            <TextInput
+        style={styles.input}
+        onChangeText={onChangeText}
+        value={updateJob}
+        placeholder="Job"
+       onChangeText={updateJob => setUpdateJob(updateJob)}
+      />
+            </View>
             <View style={[styles.logoutViewStyle, { flexDirection: 'row' },]}>
 
 <TouchableOpacity onPress={() => {
-   
+   updateUser();
 }}>
     <Image style={styles.iconStyle} source={require('../../../assets/saveIcon.jpeg')}></Image>
 </TouchableOpacity>

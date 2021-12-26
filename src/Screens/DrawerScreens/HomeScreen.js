@@ -1,5 +1,4 @@
 import { StyleSheet, Text, FlatList, View, SafeAreaView } from 'react-native';
-import AppBar from './appbar';
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { onSnapshot, collection, getDocs } from "firebase/firestore";
 import { db } from '../../firebase/config'

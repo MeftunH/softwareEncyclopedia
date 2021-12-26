@@ -192,6 +192,55 @@ const AboutUsBottomTabStack = () => {
     </Tab.Navigator>
   );
 }
+const MyConceptsBottomTabStack = () => {
+  return (
+    <Tab.Navigator screenOptions={{ headerShown: false }}
+      initialRouteName="MyConcepts"
+      tabBarOptions={{
+        activeTintColor: 'tomato',
+        inactiveTintColor: 'gray',
+        style: {
+          backgroundColor: '#e0e0e0',
+        },
+        labelStyle: {
+          textAlign: 'center',
+          fontSize: 16,
+        },
+      }}>
+      <Tab.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="home-outline" size={32} color="black" />
+        }}
+      />
+      <Tab.Screen
+        name="FAQ"
+        component={FaqScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="help-outline" size={32} color="black" />
+        }}
+      />
+      <Tab.Screen
+        name="Add Concept"
+        component={AddConceptScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="add-circle-outline" size={32} color="green" />
+
+        }}
+      /> 
+      <Tab.Screen
+      name="MyConcepts"
+      component={MyConceptScreen}
+      options={{
+        tabBarIcon: ({ color, size }) => <Ionicons name="add-circle-outline" size={32} color="green" />,
+        tabBarButton: props => null,
+
+      }}
+    />
+    </Tab.Navigator>
+  );
+}
 //stacks
 const homeScreenStack = ({ navigation }) => {
   return (
@@ -286,7 +335,7 @@ const myConceptsStack = ({ navigation }) => {
       }}>
       <Stack.Screen
         name="MyConceptsScreen"
-        component={MyConceptScreen}
+        component={MyConceptsBottomTabStack}
         options={{
           title: 'My Concepts', //Set Header Title
         }}

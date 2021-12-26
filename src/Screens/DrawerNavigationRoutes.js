@@ -315,7 +315,7 @@ const DrawerNavigatorRoutes = (props) => {
       drawerContent={CustomSidebarMenu}>
       <Drawer.Screen
         name="homeScreenStack"
-        options={{ drawerLabel: 'Home Screen' }}
+        options={{ drawerLabel: 'Home' }}
         component={homeScreenStack}
       />
       <Drawer.Screen
@@ -325,7 +325,7 @@ const DrawerNavigatorRoutes = (props) => {
       />
       <Drawer.Screen
         name="addConceptStack"
-        options={{ drawerLabel: 'Add Concept Screen' }}
+        options={{ drawerLabel: 'Add Concept' }}
         component={addConceptStack}
       />
       <Drawer.Screen

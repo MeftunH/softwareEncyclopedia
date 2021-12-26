@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet, TextInput, Image,TouchableOpacity,Alert,AsyncStorage } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Image, TouchableOpacity, Alert, AsyncStorage } from 'react-native';
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { auth } from '../../firebase/config'
-import { onSnapshot, collection, getDocs,where, } from "firebase/firestore";
+import { onSnapshot, collection, getDocs, where, } from "firebase/firestore";
 import { db } from '../../firebase/config'
 
 export default function MyProfileScreen(props) {
@@ -55,30 +55,61 @@ export default function MyProfileScreen(props) {
                 />
             </View>
             <View style={[styles.logoutViewStyle, { flexDirection: 'row' },]}>
-            <TouchableOpacity   onPress={() => {
-            Alert.alert(
-              'Logout',
-              'Are you sure? You want to logout?',
-              [
-                {
-                  text: 'Cancel',
-                  onPress: () => {
-                    return null;
-                  },
-                },
-                {
-                  text: 'Confirm',
-                  onPress: () => {
-                    AsyncStorage.clear();
-                    props.navigation.replace('Auth');
-                  },
-                },
-              ],
-              {cancelable: false},
-            );
-          }}>
-            <Image style={styles.iconStyle} source={require('../../../assets/logoutIcon.png')}></Image>
-            </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => {
+                    Alert.alert(
+                        'Save',
+                        'Are you sure?',
+                        [
+                            {
+                                text: 'Cancel',
+                                onPress: () => {
+                                    return null;
+                                },
+                            },
+                            {
+                                text: 'Confirm',
+                                onPress: () => {
+                                    AsyncStorage.clear();
+                                    props.navigation.replace('Auth');
+                                },
+                            },
+                        ],
+                        { cancelable: false },
+                    );
+                }}>
+                    <Image style={styles.iconStyle} source={require('../../../assets/saveIcon.jpeg')}></Image>
+                </TouchableOpacity>
+                <Text style={styles.saveTextStyle}>
+                    Save
+                </Text>
+            </View>
+            <View style={[styles.logoutViewStyle, { flexDirection: 'row' },]}>
+
+                <TouchableOpacity onPress={() => {
+                    Alert.alert(
+                        'Logout',
+                        'Are you sure? You want to logout?',
+                        [
+                            {
+                                text: 'Cancel',
+                                onPress: () => {
+                                    return null;
+                                },
+                            },
+                            {
+                                text: 'Confirm',
+                                onPress: () => {
+                                    AsyncStorage.clear();
+                                    props.navigation.replace('Auth');
+                                },
+                            },
+                        ],
+                        { cancelable: false },
+                    );
+                }}>
+                    <Image style={styles.iconStyle} source={require('../../../assets/logoutIcon.png')}></Image>
+                </TouchableOpacity>
                 <Text style={styles.logoutTextStyle}>
                     Logout
                 </Text>
@@ -97,6 +128,10 @@ const styles = StyleSheet.create({
     },
     logoutTextStyle: {
         color: 'red',
+        fontWeight: 'bold',
+    },
+    saveTextStyle: {
+        color: 'blue',
         fontWeight: 'bold',
     },
     logoutViewStyle: {

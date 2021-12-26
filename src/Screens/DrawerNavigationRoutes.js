@@ -15,7 +15,7 @@ import FaqScreen from './DrawerScreens/FaqScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import BottomTabNavigator from "./TabNavigation/TabNavigator";
 import MyConceptScreen from './DrawerScreens/MyConceptsScreen';
-import AbaoutUs from './DrawerScreens/AbaoutUs';
+import AboutUs from './DrawerScreens/AboutUs';
 import MyProfile from './DrawerScreens/MyProfile';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -245,10 +245,10 @@ const myConceptsStack = ({ navigation }) => {
     </Stack.Navigator>
   );
 };
-const AbaoutUsStack = ({ navigation }) => {
+const AboutUsStack = ({ navigation }) => {
   return (
     <Stack.Navigator
-      initialRouteName="AbaoutUs"
+      initialRouteName="AboutUs"
       screenOptions={{
         headerLeft: () => (
           <NavigationDrawerHeader navigationProps={navigation} />
@@ -262,10 +262,10 @@ const AbaoutUsStack = ({ navigation }) => {
         },
       }}>
       <Stack.Screen
-        name="AbaoutUsScreen"
-        component={AbaoutUs}
+        name="AboutUsScreen"
+        component={AboutUs}
         options={{
-          title: 'Abaout Us', //Set Header Title
+          title: 'About Us', //Set Header Title
         }}
       />
     </Stack.Navigator>
@@ -335,9 +335,9 @@ const DrawerNavigatorRoutes = (props) => {
         component={myConceptsStack}
       />
       <Drawer.Screen
-        name="AbaoutUsStack"
-        options={{ drawerLabel: 'Abaout Us' }}
-        component={AbaoutUs}
+        name="AboutUsStack"
+        options={{ drawerLabel: 'About Us' }}
+        component={AboutUs}
       />
       <Drawer.Screen
         name="MyProfileStack"

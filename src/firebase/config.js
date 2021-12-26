@@ -4,12 +4,12 @@ import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
 
-  apiKey: "AIzaSyAjUAd1oq0uLxvMvhYFXKnAxngFA4SF0H8",
-  authDomain: "mobileproject-ec098.firebaseapp.com",
-  projectId: "mobileproject-ec098",
-  storageBucket: "mobileproject-ec098.appspot.com",
-  messagingSenderId: "759396065454",
-  appId: "1:759396065454:web:1f7bbb9bfe257e7e1f0d3f"
+  apiKey: "AIzaSyDtAe3eXsb22ZCMzMUUT__mK41FtxviZ9s",
+  authDomain: "final-51c0f.firebaseapp.com",
+  projectId: "final-51c0f",
+  storageBucket: "final-51c0f.appspot.com",
+  messagingSenderId: "678341501805",
+  appId: "1:678341501805:web:25159a97918f91a1627064"
 
 };
 

@@ -24,7 +24,7 @@ export default function MyProfileScreen(props) {
         });
         setData(newConcepts);
     }
-    console.log(data)
+  
     useEffect(() => {
         
         if(loadingAct == true){
@@ -61,13 +61,24 @@ export default function MyProfileScreen(props) {
                     style={styles.inputStyle}
                     value={job}
                     placeholder="Job Description"
-                    placeholderTextColor="#8b9cb5"
+                    placeholderTextColor="#0000"
                     autoCapitalize="none"
                     returnKeyType="next"
                     underlineColorAndroid="#f000"
                     blurOnSubmit={false}
                 />
             </View>
+            <View style={[styles.logoutViewStyle, { flexDirection: 'row' },]}>
+
+<TouchableOpacity onPress={() => {
+   
+}}>
+    <Image style={styles.iconStyle} source={require('../../../assets/saveIcon.jpeg')}></Image>
+</TouchableOpacity>
+<Text style={styles.saveTextStyle}>
+    Save
+</Text>
+</View>
             <View style={[styles.logoutViewStyle, { flexDirection: 'row' },]}>
                 <TouchableOpacity onPress={() => {
                     Alert.alert(

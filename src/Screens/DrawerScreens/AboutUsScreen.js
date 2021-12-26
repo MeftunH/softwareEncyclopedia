@@ -5,23 +5,34 @@ import { db } from '../../firebase/config'
 export default function AboutUsScreen({ navigation }) {
     const [data, setData] = useState([]);
     const [loadingAct, setLoadingAct] = useState(true);
-    var description;
+    const [description, setDescription] = useState();
+   
     const getData = async () => {
-        const q = query(collection(db, "abaoutUs"));
-        const querySnapshot = await getDocs(q);
-        const myConcepts = [];
+        const querySnapshot = await getDocs(collection(db, "aboutUs"));
+        const newConcepts = [];
         querySnapshot.forEach((doc) => {
-            description = doc.data().description;
-            console.log(description);
-            myConcepts.push({ description: description });
-        });
-    }
+            if (doc.data().email == user.email) {
+                var bio = doc.data().bio;
+                var job = doc.data().job;
+                newConcepts.push({ bio: bio, job: job });
+            }
 
+        });
+        setData(newConcepts);
+    }
+  
     useEffect(() => {
-        if (loadingAct == true) {
-            getData();
-            setLoadingAct(false);
+        
+        if(loadingAct == true){
+        getData();
+    setLoadingAct(false);
         }
+        data.map((item) => {
+            SetJob(item.job);
+            SetBio(item.bio);
+        });
+    console.log(job) 
+    
     });
     return (
         <View style={[styles.card, { flexDirection: 'column' },]}>

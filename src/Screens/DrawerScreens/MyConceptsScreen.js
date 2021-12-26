@@ -1,46 +1,42 @@
-import { StyleSheet, Text, FlatList, View, Image, Button, TouchableOpacity,Alert  } from 'react-native';
+import { StyleSheet, Text, FlatList, View, Image, Button, TouchableOpacity, Alert } from 'react-native';
 import React, { useState, useEffect } from "react";
-import { doc,onSnapshot,collection, getDocs,deleteDoc ,where,query,snapshot} from "firebase/firestore";
+import { doc, onSnapshot, collection, getDocs, deleteDoc, where, query, snapshot } from "firebase/firestore";
 import { auth, db } from '../../firebase/config'
 export default function MyConcepts({ navigation }) {
     const user = auth.currentUser;
     const [data, setData] = useState([]);
     const getData = async () => {
-       
-const q = query(collection(db, "concepts"), where("user_email", "==", user.email));
+        const q = query(collection(db, "concepts"), where("user_email", "==", user.email));
+        const querySnapshot = await getDocs(q);
+        const myConcepts = [];
+        querySnapshot.forEach((doc) => {
+            var title = doc.data().title;
+            var description = doc.data().description;
+            myConcepts.push({ title: title, description: description });
+            console.log(doc.id, " => ", doc.data());
+        });
+    }
 
-const querySnapshot = await getDocs(q);
-const myConcepts = [];
-querySnapshot.forEach((doc) => {
-    if (doc.data().user_email != user.email) {
-        var title = doc.data().title;
-        var description = doc.data().description;
-        myConcepts.push({ title: title, description: description });
-    }
-  console.log(doc.id, " => ", doc.data());
-});
-    }
-    
     useEffect(() => {
         getData();
     }, []);
-      console.log(data)
+    console.log(data)
     const deleteData = async (conceptId) => {
         const conceptDocRef = doc(db, 'concepts', conceptId)
-    try{
-      await deleteDoc(conceptDocRef).then( Alert.alert(
-        "Deleted",
-        "Concept Deleted",
-        [
-          { text: "OK", onPress: () => console.log("OK Pressed") }
-        ]
-      ))
-    } catch (err) {
-      alert(err)
-    }
+        try {
+            await deleteDoc(conceptDocRef).then(Alert.alert(
+                "Deleted",
+                "Concept Deleted",
+                [
+                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                ]
+            ))
+        } catch (err) {
+            alert(err)
+        }
     }
 
-    
+
     return (
         <View>
             <Text style={styles.titleStyle}> My Concepts</Text>
@@ -58,12 +54,13 @@ querySnapshot.forEach((doc) => {
                             </View>
                             <View>
                                 <TouchableOpacity onPress={() => { deleteData(item.id) }}>
-                                <Image style={styles.iconStyle} source={require('../../../assets/trashIcon.png')}></Image>
+                                    <Image style={styles.iconStyle} source={require('../../../assets/trashIcon.png')}></Image>
                                 </TouchableOpacity>
                             </View>
                         </View>
                         <Text style={styles.textContent}>{item.description}</Text>
-                    </View>}
+                    </View>
+                }
             />
         </View>
     )

@@ -1,32 +1,30 @@
-import { StyleSheet, Text, FlatList, View, SafeAreaView } from 'react-native';
-import AppBar from './appbar';
-import React, { useLayoutEffect, useState, useEffect } from "react";
-import { onSnapshot, collection, getDocs } from "firebase/firestore";
+import { StyleSheet, Text, View, FlatList } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { collection, getDocs, query, } from "firebase/firestore";
 import { db } from '../../firebase/config'
 export default function AboutUsScreen({ navigation }) {
-
     const [data, setData] = useState([]);
-    const [list] = React.useState([
-        {
-            id: 1,
-            title: 'Uygulama neden yapıldı?',
-            body: '2020 yılında kurulmuş olan ProkaryoTech şirketi Freelance olarak alınan işlerin vergisini ödemek amacıyla kurulmuştur. Şirket ismi tüm dillerde ortak bir kelime olan ve kökü latinceye dayanan Prokaryot kelimesini baz almaktadır. Bu kelime ile technology kelimesi birleşip ProkaryoTech doğmuştur. Bireyler hayallerinde olan projelerini tecrübeli ellere bırakarak projelerinden maksimum verim elde etmektedirler. Bunun yanı sıra kendi kar amacı güden veya gütmeyen projelerini de yaparak referans projelerini çoğaltmaktadır. Detaylı bilgi ve iletişim için www.prokaryo.tech adresini ziyaret edebilirsiniz',
-        },
-    ]);
+    var description;
+    const getData = async () => {
+        const q = query(collection(db, "abaoutUs"));
+        const querySnapshot = await getDocs(q);
+        const myConcepts = [];
+        querySnapshot.forEach((doc) => {
+            description = doc.data().description;
+            console.log(description);
+            myConcepts.push({ description: description });
+        });
+    }
 
+    useEffect(() => {
+        getData();
+    }, []);
     return (
-        <View>
-            <FlatList
-                data={list}
-                style={styles.container}
-                renderItem={({ item }) =>
-                    <View style={[styles.card, { flexDirection: 'column' },]}>
-                        <Text style={styles.textTitle}>{item.title}</Text>
-                        <Text style={styles.textContent}>{item.description}</Text>
-                    </View>}
-            />
-
+        <View style={[styles.card, { flexDirection: 'column' },]}>
+            <Text>{description}</Text>
         </View>
+
+
     );
 }
 const styles = StyleSheet.create({
@@ -57,7 +55,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     textContent: {
-        flex: 1,
         padding: 13,
         fontSize: 14,
     },

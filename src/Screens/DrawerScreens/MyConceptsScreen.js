@@ -1,42 +1,28 @@
-import { StyleSheet, Text, FlatList, View, Image, Button, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, FlatList, View, Image, Button, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from "react";
-import { doc, onSnapshot, collection, getDocs, deleteDoc, where, query, snapshot } from "firebase/firestore";
+import { collection, getDocs, where, query } from "firebase/firestore";
 import { auth, db } from '../../firebase/config'
 export default function MyConcepts({ navigation }) {
     const user = auth.currentUser;
     const [data, setData] = useState([]);
+    const [title, seTitle] = useState('');
+    const [description, setDescription] = useState([]);
     const getData = async () => {
         const q = query(collection(db, "concepts"), where("user_email", "==", user.email));
+
         const querySnapshot = await getDocs(q);
-        const myConcepts = [];
+        const newConcepts = [];
         querySnapshot.forEach((doc) => {
             var title = doc.data().title;
             var description = doc.data().description;
-            myConcepts.push({ title: title, description: description });
-            console.log(doc.id, " => ", doc.data());
+            newConcepts.push({ title: title, description: description });
         });
+        setData(newConcepts);
     }
 
     useEffect(() => {
-        getData();
-    }, []);
-    console.log(data)
-    const deleteData = async (conceptId) => {
-        const conceptDocRef = doc(db, 'concepts', conceptId)
-        try {
-            await deleteDoc(conceptDocRef).then(Alert.alert(
-                "Deleted",
-                "Concept Deleted",
-                [
-                    { text: "OK", onPress: () => console.log("OK Pressed") }
-                ]
-            ))
-        } catch (err) {
-            alert(err)
-        }
-    }
-
-
+        getData()
+    });
     return (
         <View>
             <Text style={styles.titleStyle}> My Concepts</Text>
@@ -59,8 +45,7 @@ export default function MyConcepts({ navigation }) {
                             </View>
                         </View>
                         <Text style={styles.textContent}>{item.description}</Text>
-                    </View>
-                }
+                    </View>}
             />
         </View>
     )

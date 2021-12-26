@@ -14,7 +14,7 @@ import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
 import FaqScreen from './DrawerScreens/FaqScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import BottomTabNavigator from "./TabNavigation/TabNavigator";
-import MyConceptScreen from './DrawerScreens/MyConceptsScreen';
+import MyConceptsScreen from './DrawerScreens/MyConceptsScreen';
 import AboutUsScreen from './DrawerScreens/AboutUsScreen';
 import MyProfileScreen from './DrawerScreens/MyProfileScreen';
 const Stack = createStackNavigator();
@@ -45,13 +45,6 @@ const BottomTabStack = () => {
         }}
       />
       <Tab.Screen
-        name="FAQ"
-        component={FaqScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => <Ionicons name="help-outline" size={32} color="black" />
-        }}
-      />
-      <Tab.Screen
         name="Add Concept"
         component={AddConceptScreen}
         options={{
@@ -59,50 +52,16 @@ const BottomTabStack = () => {
 
         }}
       />
-    </Tab.Navigator>
-  );
-};
-const FaqBottomTabStack = () => {
-  return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}
-      initialRouteName="FAQ"
-      tabBarOptions={{
-        activeTintColor: 'tomato',
-        inactiveTintColor: 'gray',
-        style: {
-          backgroundColor: '#e0e0e0',
-        },
-        labelStyle: {
-          textAlign: 'center',
-          fontSize: 16,
-        },
-      }}>
       <Tab.Screen
-        name="HomeScreen"
-        component={HomeScreen}
+        name="My Profile"
+        component={MyProfileScreen}
         options={{
-          tabBarIcon: ({ color, size }) => <Ionicons name="home-outline" size={32} color="black" />
-        }}
-      />
-      <Tab.Screen
-        name="FAQ"
-        component={FaqScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => <Ionicons name="help-outline" size={32} color="black" />
-        }}
-      />
-      <Tab.Screen
-        name="Add Concept"
-        component={AddConceptScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => <Ionicons name="add-circle-outline" size={32} color="green" />
-
+          tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={32} color="black" />
         }}
       />
     </Tab.Navigator>
   );
 };
-
 const AddConceptBottomTabStack = () => {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}
@@ -126,125 +85,27 @@ const AddConceptBottomTabStack = () => {
         }}
       />
       <Tab.Screen
-        name="FAQ"
-        component={FaqScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => <Ionicons name="help-outline" size={32} color="black" />
-        }}
-      />
-      <Tab.Screen
         name="Add Concept"
         component={AddConceptScreen}
         options={{
           tabBarIcon: ({ color, size }) => <Ionicons name="add-circle-outline" size={32} color="green" />
 
+        }}
+      />
+       <Tab.Screen
+        name="My Profile"
+        component={MyProfileScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={32} color="black" />
         }}
       />
     </Tab.Navigator>
   );
 };
-const AboutUsBottomTabStack = () => {
-  return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}
-      initialRouteName="AboutUs"
-      tabBarOptions={{
-        activeTintColor: 'tomato',
-        inactiveTintColor: 'gray',
-        style: {
-          backgroundColor: '#e0e0e0',
-        },
-        labelStyle: {
-          textAlign: 'center',
-          fontSize: 16,
-        },
-      }}>
-      <Tab.Screen
-        name="HomeScreen"
-        component={HomeScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => <Ionicons name="home-outline" size={32} color="black" />
-        }}
-      />
-      <Tab.Screen
-        name="FAQ"
-        component={FaqScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => <Ionicons name="help-outline" size={32} color="black" />
-        }}
-      />
-      <Tab.Screen
-        name="Add Concept"
-        component={AddConceptScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => <Ionicons name="add-circle-outline" size={32} color="green" />
-
-        }}
-      /> 
-      <Tab.Screen
-      name="AboutUs"
-      component={AboutUsScreen}
-      options={{
-        tabBarIcon: ({ color, size }) => <Ionicons name="add-circle-outline" size={32} color="green" />,
-        tabBarButton: props => null,
-
-      }}
-    />
-    </Tab.Navigator>
-  );
-}
-const MyConceptsBottomTabStack = () => {
-  return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}
-      initialRouteName="MyConcepts"
-      tabBarOptions={{
-        activeTintColor: 'tomato',
-        inactiveTintColor: 'gray',
-        style: {
-          backgroundColor: '#e0e0e0',
-        },
-        labelStyle: {
-          textAlign: 'center',
-          fontSize: 16,
-        },
-      }}>
-      <Tab.Screen
-        name="HomeScreen"
-        component={HomeScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => <Ionicons name="home-outline" size={32} color="black" />
-        }}
-      />
-      <Tab.Screen
-        name="FAQ"
-        component={FaqScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => <Ionicons name="help-outline" size={32} color="black" />
-        }}
-      />
-      <Tab.Screen
-        name="Add Concept"
-        component={AddConceptScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => <Ionicons name="add-circle-outline" size={32} color="green" />
-
-        }}
-      /> 
-      <Tab.Screen
-      name="MyConcepts"
-      component={MyConceptScreen}
-      options={{
-        tabBarIcon: ({ color, size }) => <Ionicons name="add-circle-outline" size={32} color="green" />,
-        tabBarButton: props => null,
-
-      }}
-    />
-    </Tab.Navigator>
-  );
-}
 const MyProfileBottomTabStack = () => {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}
-      initialRouteName="MyProfile"
+      initialRouteName="My Profile"
       tabBarOptions={{
         activeTintColor: 'tomato',
         inactiveTintColor: 'gray',
@@ -264,32 +125,23 @@ const MyProfileBottomTabStack = () => {
         }}
       />
       <Tab.Screen
-        name="FAQ"
-        component={FaqScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => <Ionicons name="help-outline" size={32} color="black" />
-        }}
-      />
-      <Tab.Screen
         name="Add Concept"
         component={AddConceptScreen}
         options={{
           tabBarIcon: ({ color, size }) => <Ionicons name="add-circle-outline" size={32} color="green" />
 
         }}
-      /> 
-      <Tab.Screen
-      name="MyProfile"
-      component={MyProfileScreen}
-      options={{
-        tabBarIcon: ({ color, size }) => <Ionicons name="add-circle-outline" size={32} color="green" />,
-        tabBarButton: props => null,
-
-      }}
-    />
+      />
+       <Tab.Screen
+        name="My Profile"
+        component={MyProfileScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={32} color="black" />
+        }}
+      />
     </Tab.Navigator>
   );
-}
+};
 //stacks
 const homeScreenStack = ({ navigation }) => {
   return (
@@ -332,7 +184,7 @@ const faqScreenStack = ({ navigation }) => {
       }}>
       <Stack.Screen
         name="FaqScreen"
-        component={FaqBottomTabStack}
+        component={FaqScreen}
         options={{
           title: 'FAQ', //Set Header Title
         }}
@@ -384,7 +236,7 @@ const myConceptsStack = ({ navigation }) => {
       }}>
       <Stack.Screen
         name="MyConceptsScreen"
-        component={MyConceptsBottomTabStack}
+        component={MyConceptsScreen}
         options={{
           title: 'My Concepts', //Set Header Title
         }}
@@ -410,7 +262,7 @@ const aboutUsStack = ({ navigation }) => {
       }}>
       <Stack.Screen
         name="AboutUsScreen"
-        component={AboutUsBottomTabStack}
+        component={AboutUsScreen}
         options={{
           title: 'About Us', //Set Header Title
         }}
